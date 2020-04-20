@@ -1,7 +1,18 @@
-h1{
-    text-align: center;
+/* HEADER */
+header{
+    height: 80px;
 }
-top-line{
-    height: 1px;
-    background-color: forestgreen;
+/* RIGHT BLOCKS */
+.right_block_height{
+    height: 150px;
+}
+/* QUESTIONS */
+.row .col-6 a{
+    line-height: 46px;
+}
+.question_title{
+    font-size: 15pt;
+}
+.top-buffer{
+    margin-top: 20px;
 }
