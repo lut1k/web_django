@@ -120,3 +120,8 @@ header{
     height: 300px;
     resize: none;
 }
+
+/* BLOCK CONTENT SETTINGS */
+.upload_avatar_field{
+    margin-top: 20px;
+}

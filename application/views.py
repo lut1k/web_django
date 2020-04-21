@@ -28,4 +28,5 @@ def login(request):
 def signup(request):
     return render(request, 'signup.html')
 
-
+def settings(request):
+    return render(request, 'settings.html')
