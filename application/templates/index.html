@@ -4,37 +4,39 @@
 
 {%block content%}
     <div class="row">
-        <div class="col-4">
+        <div class="col-6 col-md-6 questions_title">
             <h3>New Questions</h3>
         </div>
-        <div class="col-6">
+        <div class="col-4 col-md-4 hot_questions">
             <a href="#">Hot questions</a>
         </div>
     </div>
-    <div class="row border top-buffer">
-        <div class="col-md-1">
+    <div class="row border block_with_question">
+        <div class="col-1 p-0 question_avatar">
             <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
-            <a class="text-center" href="#">likes</a>
-        </div>
-        <div class="col-md-10 ml-3">
-            <div class="row">
-                <a href="#" class="question_title"><u>Название вопроса</u></a>
+            <div class="question_likes">
+                <a class="text-center" href="#">likes</a>
             </div>
-            <div class="row">
+        </div>
+        <div class="col-10 question_body">
+            <div class="row question_title">
+                <a href="question/35/"><u>Название вопроса</u></a>
+            </div>
+            <div class="row question_text">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                     Nisi officia cum neque debitis, ad repellendus voluptatibus? Beatae eum quod accusamus.</p>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <a href="#" style="line-height: 40px;">answers(3)</a>
+                <div class="col-4 question_answers">
+                    <a href="#">answers(3)</a>
                 </div>
-                <div class="col-md-2">
-                    <span style="line-height: 40px;">Tags:</span>
+                <div class="col-2 question_tags_title">
+                    <p>Tags:</p>
                 </div>
-                <div class="col-md-6">
-                    <ul class="list-inline" style="line-height: 40px;">
-                        <li class="list-inline-item" style="line-height: 40px;"><a href="#">tag#1</a></li>
-                        <li class="list-inline-item" style="line-height: 40px;"><a href="#">tag#2</a></li>
+                <div class="col-6 quesion_tags">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="#">tag#1</a></li>
+                        <li class="list-inline-item"><a href="#">tag#2</a></li>
                     </ul>
                 </div>
             </div>
