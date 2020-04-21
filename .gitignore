@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 web_django/static/*
-media/*
+files/media/*
 
 # Distribution / packaging
 .Python

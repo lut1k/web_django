@@ -12,6 +12,9 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=user_directory_path)
     rating = models.IntegerField(default=0)
 
+    def __str__(self):
+        return "{}".format(self.user)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=31, unique=True)
@@ -40,11 +43,10 @@ class Answer(models.Model):
     answer_author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    confirm_flag = models.BooleanField()
     rating = models.IntegerField()
 
     def __str__(self):
-        return "{}, updated_at: {}; text: {}".format(self.answer_author, self.updated_at, self.text)
+        return "{}, updated_at: {}; text: {}".format(self.answer_author, self.updated_at, self.text[:20])
 
 
 class Like(models.Model):
