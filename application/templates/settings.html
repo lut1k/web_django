@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% load static %}
-{%block title%}<title>l-ASK/registrations</title>{% endblock %}
+{%block title%}<title>l-ASK/settings</title>{% endblock %}
 {%block content%}
-<h2>Registration</h2>
-<form class="signup_form" action="" method="POST">
+<h2>Settings: Dr. Pepper</h2>
+<form class="settings_form" action="" method="POST">
     {% csrf_token %}
     <div class="form-group row">
         <label for="login" class="col-sm-3 col-form-label">Login</label>
@@ -25,21 +25,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="password" class="col-sm-3 col-form-label">Password</label>
-        <div class="col-sm-9">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="password" class="col-sm-3 col-form-label">Repeat password</label>
-        <div class="col-sm-9">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Repeat password">
-        </div>
-    </div>
-    <div class="form-group row">
         <label for="upload_avatar" class="col-sm-3 col-form-label">Upload avatar</label>
         <div class="col-sm-9">
-            <div class="custom-file">
+            <div class="row">
+                <div class="col-3">
+                    <img src="{% static 'images/avatar_default.jpg' %}" class="img-fluid" alt="avatar">
+                </div>
+            </div>
+            <div class="custom-file upload_avatar_field">
                 <input type="file" class="custom-file-input" id="upload_avatar">
                 <label class="custom-file-label" for="upload_avatar">Choose file</label>
             </div>
@@ -47,7 +40,7 @@
     </div>
     <div class="form-group row">
         <div class="col-sm-9 offset-3">
-            <button type="submit" class="btn btn-primary">Register!</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </div>
 </form>

@@ -12,65 +12,110 @@
   </head>
   <body>
     <header>
-      <div class="navbar navbar-expand-md navbar-light">
+      <div class="navbar navbar-expand-md navbar-light border-bottom header">
         <a class="navbar-brand" href="/">
-          <img src="{% static 'images/logo.jpg' %}" width="30" height="30" alt="l-ask">
-          l-ask
+        <img src="{% static 'images/logo.jpg' %}" width="30" height="30" alt="l-ask">
+        l-ask
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="form-inline my-2 my-lg-0 mx-auto">
+          <form class="form-inline my-2 my-lg-0 form_search">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ASK!</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
+          <div class="btn_ask">
+            <a class="btn btn-outline-danger my-2 my-sm-0" href='/ask'>ASK!</a>
+          </div>
+          {% if user.is_authenticated %}
+          <div class="card mb-1 header_card">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img src="{% static 'images/avatar_default.jpg' %}" class="card-img" alt="avatar">
+              </div>
+              <div class="card-body p-0">
+                <h5 class="card-title mb-0 text-center">User</h5>
+                <a class="card-text" href="#"><small>settings</small></a>
+                <a class="card-text" href="#"><small>logout</small></a>
+              </div>
+            </div>
+          </div>
+          {% else %}
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Log in</a>
-              {% if user.is_authenticated %}
-              
-              {% else %}
+              <a class="nav-link" href="/login">Log in</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Register</a>
-              </li>
-              {% endif% %}
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Register</a>
+            </li>
           </ul>
+          {% endif %}
         </div>
       </div>
     </header>
-    <hr>
 
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 col-md-8">
-          {%block content%}{% endblock %}
-        </div>
-        <div class="col-md-4">
-          <h3>Popular Tags</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, doloremque!</p>
-          <h3>Popular memberes</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, deleniti.</p>
+
+        <div class="col-xs-12 col-md-9 block_content">{%block content%}{% endblock %}</div>
+
+        <div class="col-md-3">
+          <div class="row right_block_tags">
+            <div class="col-12 block_tags_title"><h3>Popular Tags</h3></div>
+            <div class="col-3"><a href="#">tag1</a></div>
+            <div class="col-3"><a href="#">tag2</a></div>
+            <div class="col-3"><a href="#">tag3</a></div>
+            <div class="col-3"><a href="#">tag4</a></div>
+            <div class="col-3"><a href="#">tag5</a></div>
+            <div class="col-3"><a href="#">tag6</a></div>
+            <div class="col-3"><a href="#">tag7</a></div>
+          </div>
+            <div class="row right_block_members">
+              <div class="col-12 block_members_title"><h3>Best Members</h3></div>
+                <div class="col-12">
+                  <table class="table table-hover">
+                    <tbody>
+                      <tr>
+                        <td scope="row">
+                          <a href="#">Best user #1</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">
+                          <a href="#">Best user #2</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">
+                          <a href="#">Best user #3</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">
+                          <a href="#">Best user #4</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">
+                          <a href="#">Best user #5</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
         </div>
       </div>
     </div>
 
-
-    
-
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 offset-md-2">
-            <p>Copiright. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea debitis nulla quos 
-              libero at iure ullam est omnis, culpa atque eius repellendus beatae. 
-              Nobis officia itaque iste molestiae aut nihil quas, beatae nam necessitatibus hic laudantium 
-              sapiente, sunt veniam officiis.</p> 
-          </div>
+    <div class="container">
+      <footer class="page-footer font-small special-color-dark pt-4">
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+          <a href="/"> l-ask</a>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
