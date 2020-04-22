@@ -3,10 +3,10 @@ import random
 from django.core.management.base import BaseCommand
 from application.models import Question, Profile, Tag, Answer, User
 
-USERS_COUNT = 5
-QUESTIONS_COUNT = 5
-ANSWERS_COUNT = 5
-TAGS_COUNT = 5
+USERS_COUNT = 1
+QUESTIONS_COUNT = 1
+ANSWERS_COUNT = 1
+TAGS_COUNT = 1
 
 
 # python manage.py testdata
@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         TestDataForDb.create_users()
+        self.stdout.write("Created test data: users")
 
 
 class TestDataForDb:
@@ -30,3 +31,16 @@ class TestDataForDb:
             user = User.objects.create_user(login, email, _password)
             user.profile.nick_name = random_name
             user.save()
+
+    @classmethod
+    def create_questions(cls):
+        pass
+
+    @classmethod
+    def create_answers(cls):
+        pass
+
+    @classmethod
+    def create_tags(cls):
+        pass
+
