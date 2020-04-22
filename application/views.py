@@ -1,3 +1,6 @@
+import re
+from django.contrib import auth
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView
 from application.models import Question
@@ -27,6 +30,10 @@ def answers_to_question(request):
     return render(request, 'question.html')
 
 
+def settings(request):
+    return render(request, 'settings.html')
+
+
 def ask(request):
     return render(request, 'ask.html')
 
@@ -39,5 +46,13 @@ def signup(request):
     return render(request, 'signup.html')
 
 
-def settings(request):
-    return render(request, 'settings.html')
+def get_continue(request, default='/'):
+    url = request.GET.get('continue', default)
+    if re.match(r'^/|http://127\.0\.0\.', url):   # Защита от Open Redirect
+        return url
+    return default
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(get_continue(request))
