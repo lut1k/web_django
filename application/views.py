@@ -1,12 +1,22 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from application.models import Question
 
 
-def home(request):
-    return render(request, 'index.html')
+class HomeLisView(ListView):
+    model = Question
+    template_name = 'index.html'
+    context_object_name = 'questions'
+    paginate_by = 2
+    queryset = Question.new_questions.all()
 
 
-def hot_questions(request):
-    return render(request, 'index.html')
+class HotQuestionsListView(ListView):
+    model = Question
+    template_name = 'index.html'
+    context_object_name = 'questions'
+    paginate_by = 2
+    queryset = Question.hot_questions.all()
 
 
 def questions_by_tag(request):
@@ -27,6 +37,7 @@ def login(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
 
 def settings(request):
     return render(request, 'settings.html')

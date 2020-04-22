@@ -13,7 +13,7 @@
   <body>
     <header>
       <div class="navbar navbar-expand-md navbar-light border-bottom header">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="{% url 'home' %}">
         <img src="{% static 'images/logo.jpg' %}" width="30" height="30" alt="l-ask">
         l-ask
         </a>
@@ -26,17 +26,17 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
           <div class="btn_ask">
-            <a class="btn btn-outline-danger my-2 my-sm-0" href='/ask'>ASK!</a>
+            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'ask' %}">ASK!</a>
           </div>
           {% if user.is_authenticated %}
-          <div class="card mb-1 header_card">
+          <div class="card mb-1 header_card ml-auto">
             <div class="row no-gutters">
               <div class="col-md-4">
                 <img src="{% static 'images/avatar_default.jpg' %}" class="card-img" alt="avatar">
               </div>
               <div class="card-body p-0">
-                <h5 class="card-title mb-0 text-center">User</h5>
-                <a class="card-text" href="#"><small>settings</small></a>
+                <h5 class="card-title mb-0 text-center">{{user.username}}</h5>
+                <a class="card-text" href="{% url 'settings' %}"><small>settings</small></a>
                 <a class="card-text" href="#"><small>logout</small></a>
               </div>
             </div>
@@ -44,10 +44,10 @@
           {% else %}
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/login">Log in</a>
+              <a class="nav-link" href="{% url 'login' %}">Log in</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="/signup">Register</a>
+              <a class="nav-link" href="{% url 'signup' %}">Register</a>
             </li>
           </ul>
           {% endif %}
@@ -112,7 +112,7 @@
     <div class="container">
       <footer class="page-footer font-small special-color-dark pt-4">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-          <a href="/"> l-ask</a>
+          <a href="{% url 'home' %}"> l-ask</a>
         </div>
       </footer>
     </div>

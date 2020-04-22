@@ -12,7 +12,8 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'question_author']
+    list_display = ['title', 'question_author', 'rating', 'created_at']
+    ordering = ['rating']
 
     class Meta:
         model = Question

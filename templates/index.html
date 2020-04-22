@@ -5,26 +5,26 @@
 {%block content%}
     <div class="row">
         <div class="col-6 col-md-6 questions_title">
-            <h3>New Questions</h3>
+            <h3><a href="{% url 'home' %}">New Questions</a></h3>
         </div>
-        <div class="col-4 col-md-4 hot_questions">
-            <a href="#">Hot questions</a>
+        <div class="col-6 col-md-6 questions_title">
+            <h3><a href="{% url 'hot-questions' %}">Hot Questions</a></h3>
         </div>
     </div>
+{% for question in questions %}
     <div class="row border block_with_question">
         <div class="col-1 p-0 question_avatar">
-            <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
+            <img src="{{ question.question_author.profile.avatar.url }}" class="card-img img-fluid" alt="avatar">
             <div class="question_likes">
                 <a class="text-center" href="#">likes</a>
             </div>
         </div>
         <div class="col-10 question_body">
             <div class="row question_title">
-                <a href="question/35/"><u>Название вопроса</u></a>
+                <a href="{% url 'answers-to-question' %}"><u>{{question.title}}</u></a>
             </div>
             <div class="row question_text">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Nisi officia cum neque debitis, ad repellendus voluptatibus? Beatae eum quod accusamus.</p>
+                <p>{{ question.text }}</p>
             </div>
             <div class="row">
                 <div class="col-4 question_answers">
@@ -42,6 +42,7 @@
             </div>
         </div>
     </div>
+{% endfor %}
 
     {% block pagination %}
     {% if is_paginated %}

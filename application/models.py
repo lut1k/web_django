@@ -23,6 +23,16 @@ class Tag(models.Model):
         return self.name
 
 
+class NewQuestionsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('-created_at')
+
+
+class HotQuestionsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('-rating', '-created_at')
+
+
 class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
@@ -31,8 +41,11 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
-    # TODO почитать что такое 'Answer'
     correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.CASCADE)
+
+    object = models.Manager()
+    new_questions = NewQuestionsManager()
+    hot_questions = HotQuestionsManager()
 
     def __str__(self):
         return '{}; user: {}; updated_at: {}'.format(self.title, self.question_author, self.updated_at)
