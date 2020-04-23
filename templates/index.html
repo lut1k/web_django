@@ -14,7 +14,7 @@
 {% for question in questions %}
     <div class="row border block_with_question">
         <div class="col-1 p-0 question_avatar">
-            <img src="{{ question.question_author.profile.avatar.url }}" class="card-img img-fluid" alt="avatar">
+            <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
             <div class="question_likes">
                 <a class="text-center" href="#">likes</a>
             </div>

@@ -45,7 +45,7 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.CASCADE)
 
-    object = models.Manager()
+    objects = models.Manager()
     new_questions = NewQuestionsManager()
     hot_questions = HotQuestionsManager()
 
@@ -55,6 +55,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     text = models.TextField()
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     answer_author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
