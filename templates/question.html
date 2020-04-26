@@ -3,7 +3,35 @@
 {% load static %}
 {%block title%}<title>l-ASK/question</title>{% endblock %}
 {%block content%}
-{% include 'include_blocks/question_block.html' %}
+<div class="row border-bottom block_with_question">
+    <div class="col-2 col-md-2 p-0 question_avatar">
+        <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
+        <div class="question_likes">
+            <a class="text-center" href="#">likes</a>
+        </div>
+    </div>
+    <div class="col-9 col-md-9 question_body">
+        <div class="row question_title">
+            <div class="col-12">
+                <p>{{question.title}}</p>
+            </div>
+        </div>
+        <div class="row question_text">
+            <p>{{question.text}}</p>
+        </div>
+        <div class="row">
+            <div class="col-md-2 question_tags_title">
+                <p>Tags:</p>
+            </div>
+            <div class="col-md-9 quesion_tags">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">tag#1</a></li>
+                    <li class="list-inline-item"><a href="#">tag#2</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row border block_with_answer">
     <div class="col-1 p-0 answer_avatar">

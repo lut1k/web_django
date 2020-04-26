@@ -2,7 +2,7 @@ import re
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from application.models import Question
 
 
@@ -22,12 +22,17 @@ class HotQuestionsListView(ListView):
     queryset = Question.hot_questions.all()
 
 
+class QuestionDetail(DetailView):
+    model = Question
+    template_name = 'question.html'
+    paginate_by = 20
+
+
 def questions_by_tag(request):
     return render(request, 'index.html')
 
 
-def answers_to_question(request):
-    return render(request, 'question.html')
+
 
 
 def settings(request):
