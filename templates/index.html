@@ -11,55 +11,12 @@
             <h3><a href="{% url 'hot-questions' %}">Hot Questions</a></h3>
         </div>
     </div>
+    
 {% for question in questions %}
-    <div class="row border block_with_question">
-        <div class="col-1 p-0 question_avatar">
-            <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
-            <div class="question_likes">
-                <a class="text-center" href="#">likes</a>
-            </div>
-        </div>
-        <div class="col-10 question_body">
-            <div class="row question_title">
-                <a href="{% url 'answers-to-question' %}"><u>{{question.title}}</u></a>
-            </div>
-            <div class="row question_text">
-                <p>{{ question.text }}</p>
-            </div>
-            <div class="row">
-                <div class="col-4 question_answers">
-                    <a href="#">answers(3)</a>
-                </div>
-                <div class="col-2 question_tags_title">
-                    <p>Tags:</p>
-                </div>
-                <div class="col-6 quesion_tags">
-                    <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#">tag#1</a></li>
-                        <li class="list-inline-item"><a href="#">tag#2</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'include_blocks/question_block.html' %}
 {% endfor %}
 
-    {% block pagination %}
-    {% if is_paginated %}
-    <div class="pagination">
-        <span class="page-links">
-            {% if page_obj.has_previous %}
-                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-            <span class="page-current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-            {% if page_obj.has_next %}
-                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
-    {% endif %}
-    {% endblock %}
+{% include 'include_blocks/paginator.html' %}
+    
     
 {% endblock %}

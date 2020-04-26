@@ -3,37 +3,7 @@
 {% load static %}
 {%block title%}<title>l-ASK/question</title>{% endblock %}
 {%block content%}
-<div class="row border-bottom block_with_question">
-    <div class="col-2 col-md-2 p-0 question_avatar">
-        <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
-        <div class="question_likes">
-            <a class="text-center" href="#">likes</a>
-        </div>
-    </div>
-    <div class="col-9 col-md-9 question_body">
-        <div class="row question_title">
-            <div class="col-12">
-                <p>Название вопроса</p>
-            </div>
-        </div>
-        <div class="row question_text">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid libero esse deleniti ipsum fugit maxime aperiam minima pariatur cupiditate vel neque quasi ducimus, ullam, perspiciatis quidem reprehenderit adipisci dolorem suscipit cumque. Soluta, animi quas. Sint aliquid illo dolor temporibus est nihil doloribus eveniet quasi distinctio, vel, error ducimus repellendus magni.lorem50
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis cum eaque temporibus itaque corporis! Possimus tempore recusandae maiores eos sint, vero rem magni cumque at suscipit excepturi! Tenetur recusandae veniam nihil eligendi voluptatem! Quisquam blanditiis animi beatae, magnam voluptas doloribus eaque, iure consequuntur libero ut amet saepe quaerat et exercitationem?
-            </p>
-        </div>
-        <div class="row">
-            <div class="col-md-2 question_tags_title">
-                <p>Tags:</p>
-            </div>
-            <div class="col-md-9 quesion_tags">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="#">tag#1</a></li>
-                    <li class="list-inline-item"><a href="#">tag#2</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'include_blocks/question_block.html' %}
 
 <div class="row border block_with_answer">
     <div class="col-1 p-0 answer_avatar">

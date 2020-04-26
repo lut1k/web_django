@@ -2,7 +2,7 @@ import re
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from application.models import Question
 
 
@@ -34,8 +34,8 @@ def settings(request):
     return render(request, 'settings.html')
 
 
-def ask(request):
-    return render(request, 'ask.html')
+class AskTemplate(TemplateView):
+    template_name = 'ask.html'
 
 
 def login(request):
