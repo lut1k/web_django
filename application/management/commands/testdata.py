@@ -4,9 +4,9 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from application.models import Question, Tag, Answer, User
 
-USERS_COUNT = 20
-QUESTIONS_COUNT = 100
-ANSWERS_COUNT = 100
+USERS_COUNT = 10
+QUESTIONS_COUNT = 200
+ANSWERS_COUNT = 200
 
 
 # TODO дописать заполнение лайков после реализации логики лайков
@@ -61,15 +61,26 @@ class TestDataForDb:
                              "How is a threat different from a vulnerability?",
                              "What does an intrusion detection system do? How does it do it?",
                              )
-        text_for_select = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " \
-                          "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud " \
-                          "exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure " \
-                          "dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " \
-                          "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " \
-                          "mollit anim id est laborum."
+        text_for_select = (
+            "You are working at a client site, and the CTO of the client company has asked if she can "
+            "see you. The CTO wants to know how much it would cost to bring in five more people on your "
+            "team. She gives you very vague requirements of the job she is looking for you to do. What "
+            "would you do?",
+            "You have been asked to research a new business tool. You have come across two solutions. "
+            "One is an on-premise solution; the other is cloud-based. Assuming they are functionally "
+            "equivalent, why would you recommend one over the other?",
+            "You have submitted a piece of code that has broken the client's website in production. "
+            "You have found this bug while you were testing, and nobody else knows about it. What is "
+            "your next move?",
+            "You have learned that a business unit is managing a major component of the business using "
+            "Excel spreadsheets and Access databases. What risks does this present, and what would you "
+            "recommend be done to mitigate these risks?",
+            "When is the last time you downloaded a utility from the internet to make your work more productive, "
+            "and what was it?",
+        )
         for _ in range(QUESTIONS_COUNT):
             question = Question(title=random.choice(titles_for_select),
-                                text=text_for_select * random.randint(1, 4),
+                                text=random.choice(text_for_select) * random.randint(1, 3),
                                 question_author=random.choice(users),
                                 rating=random.randint(1, 100),
                                 )
@@ -82,22 +93,21 @@ class TestDataForDb:
     def create_answers(cls):
         users = User.objects.all()
         questions = Question.objects.all()
-        text_for_select = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " \
-                          "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud " \
-                          "exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure " \
-                          "dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " \
-                          "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " \
-                          "mollit anim id est laborum."
+        text_for_select = (
+            "Also, review this list of common IT interview questions and take the time to prepare responses "
+            "based on your qualifications for the job.",
+            "se the STAR interview response technique to generate examples to share during the interview.",
+            "Providing details will show the interviewer how and why you are qualified for the job. Do keep in "
+            "mind that the questions you'll be asked will be specific to the job you're interviewing for, "
+            "so they'll vary.",
+            "Websites are available to help you practice responding to more technical questions. You may be asked "
+            "during your interview to respond to technical questions using a whiteboard.",
+        )
         for question in questions:
-            answer = Answer(text=text_for_select * random.randint(1, 4),
+            answer = Answer(text=random.choice(text_for_select) * random.randint(1, 3),
                             question=question,
                             answer_author=random.choice(users),
                             rating=random.randint(1, 100),
                             )
             answer.save()
         stdout_writer.stdout.write("Created test data: ANSWERS")
-
-
-
-
-

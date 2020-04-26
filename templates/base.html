@@ -34,8 +34,14 @@
               <div class="col-md-4">
                 <img src="{% static 'images/avatar_default.jpg' %}" class="card-img" alt="avatar">
               </div>
-              <div class="card-body p-0">
-                <h5 class="card-title mb-0 text-center">{{user.username}}</h5>
+              <div class="card-body p-0 card_header">
+                <h5 class="card-title mb-0 text-center">
+                  {% if user.username|length >= 9 %}
+                    {{ user.username|slice:":9" }}...
+                  {% else %}
+                    {{user.username}}
+                  {% endif %}
+                </h5>
                 <a class="card-text" href="{% url 'settings' %}"><small>settings</small></a>
                 <a class="card-text" href="{% url 'logout' %}"><small>logout</small></a>
               </div>

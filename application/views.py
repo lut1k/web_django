@@ -10,7 +10,7 @@ class HomeLisView(ListView):
     model = Question
     template_name = 'index.html'
     context_object_name = 'questions'
-    paginate_by = 20
+    paginate_by = 10
     queryset = Question.new_questions.all()
 
 
@@ -18,14 +18,14 @@ class HotQuestionsListView(ListView):
     model = Question
     template_name = 'index.html'
     context_object_name = 'questions'
-    paginate_by = 20
+    paginate_by = 10
     queryset = Question.hot_questions.all()
 
 
 class QuestionDetail(DetailView):
     model = Question
     template_name = 'question.html'
-    paginate_by = 20
+    paginate_by = 10
 
 
 def questions_by_tag(request):
