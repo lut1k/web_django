@@ -20,7 +20,18 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('application.urls'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
-    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
+# Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+
+# Use include() to add URLS from the blog application
+urlpatterns += [
+    path('', include('application.urls'))
+]
+
+# Use static() to add url mapping to serve static files during development (only)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

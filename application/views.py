@@ -1,5 +1,8 @@
 import re
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, DetailView
@@ -52,29 +55,14 @@ class QuestionsByTagView(ListView):
         return Question.objects.filter(tags=self.kwargs.get("pk")).order_by('-rating')
 
 
+@login_required
 def settings(request):
     return render(request, 'settings.html')
 
 
-class AskTemplate(TemplateView):
+class AskTemplate(LoginRequiredMixin, TemplateView):
     template_name = 'ask.html'
-
-
-def login(request):
-    return render(request, 'login.html')
 
 
 def signup(request):
     return render(request, 'signup.html')
-
-
-def get_continue(request, default='/'):
-    url = request.GET.get('continue', default)
-    if re.match(r'^/|http://127\.0\.0\.', url):   # Защита от Open Redirect
-        return url
-    return default
-
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(get_continue(request))

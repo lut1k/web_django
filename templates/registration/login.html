@@ -4,7 +4,10 @@
 {%block title%}<title>l-ASK/login</title>{% endblock %}
 {%block content%}
 <h2>Log in</h2>
-<form class="login_form" action="" method="POST">
+{% if user.is_authenticated %}
+<p>You are already signed in.</p>
+{% else %}
+<form class="login_form" method="POST">
     {% csrf_token %}
     <div class="form-group row">
         <label for="login" class="col-sm-2 col-form-label">Login</label>
@@ -29,4 +32,5 @@
         </div>
     </div>
 </form>
+{% endif %}
 {% endblock %}
