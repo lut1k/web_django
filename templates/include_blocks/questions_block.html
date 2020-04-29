@@ -1,4 +1,5 @@
 {% load static%}
+{% for question in questions %}
 <div class="row border block_with_question">
     <div class="col-1 p-0 question_avatar">
         <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
@@ -21,11 +22,15 @@
                 <p>Tags:</p>
             </div>
             <div class="col-6 quesion_tags">
+                {% if question.tags.count > 0 %}
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="#">tag#1</a></li>
-                    <li class="list-inline-item"><a href="#">tag#2</a></li>
+                    {% for tag in question.tags.all %}
+                    <li class="list-inline-item"><a href="{% url 'questions-by-tag' tag.id %}">{{tag.name}}</a></li>
+                    {% endfor %}
                 </ul>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+{% endfor %}

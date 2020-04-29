@@ -3,7 +3,7 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, DetailView
-from application.models import Question
+from application.models import Question, Tag
 
 
 class HomeLisView(ListView):
@@ -16,7 +16,7 @@ class HomeLisView(ListView):
 
 class HotQuestionsListView(ListView):
     model = Question
-    template_name = 'index.html'
+    template_name = 'hot.html'
     context_object_name = 'questions'
     paginate_by = 10
     queryset = Question.hot_questions.all()
@@ -28,11 +28,19 @@ class QuestionDetail(DetailView):
     paginate_by = 10
 
 
-def questions_by_tag(request):
-    return render(request, 'index.html')
+class QuestionsByTagView(ListView):
+    template_name = 'questions_by_tag.html'
+    paginate_by = 10
+    model = Question
+    context_object_name = 'questions'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(id=self.kwargs.get("pk"))
+        return context
 
-
+    def get_queryset(self):
+        return Question.objects.filter(tags=self.kwargs.get("pk"))
 
 
 def settings(request):

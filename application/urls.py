@@ -5,7 +5,7 @@ from application import views
 urlpatterns = [
     path('', views.HomeLisView.as_view(), name='home'),
     path('hot/', views.HotQuestionsListView.as_view(), name='hot-questions'),
-    path('tag/blablabla/', views.questions_by_tag, name='questions-by-tag'),
+    path('tag/<int:pk>/', views.QuestionsByTagView.as_view(), name='questions-by-tag'),
     path('question/<int:pk>/', views.QuestionDetail.as_view(), name='answers-to-question'),
     path('login/', views.login, name='login'),
     path('signup/', views.signup, name='signup'),

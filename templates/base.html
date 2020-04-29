@@ -63,7 +63,17 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 col-md-9 block_content">{%block content%}{% endblock %}</div>
+        <div class="col-xs-12 col-md-9 block_content">
+          <div class="row">
+            <div class="col-6 col-md-6 questions_title">
+                {% block content_header %}{% endblock %}
+            </div>
+            <div class="col-6 col-md-6 questions_title">
+              {% block content_header_link %}{% endblock %}
+            </div>
+          </div>
+          {% block content %}{% endblock %}
+        </div>
         <div class="col-md-3">
           {% include 'include_blocks/popular_tags.html' %}
           {% include 'include_blocks/best_members.html' %}
