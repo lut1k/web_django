@@ -14,9 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from application.views import HomeLisView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,10 +26,13 @@ urlpatterns = [
 
 # Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
+    # TODO направлять пользователя на страницу, с которой он пришел
+    path('accounts/profile/', HomeLisView.as_view(), name='profile'),
 ]
 
-# Use include() to add URLS from the blog application
+# Use include() to add URLS from the application
 urlpatterns += [
     path('', include('application.urls'))
 ]

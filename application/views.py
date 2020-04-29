@@ -1,11 +1,7 @@
-import re
-from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, TemplateView
 from application.models import Question, Tag, Answer
 
 
@@ -33,11 +29,12 @@ class AnswersToQuestionList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['question'] = Question.objects.get(id=self.kwargs.get('pk'))
+        context['question'] = get_object_or_404(Question, id=self.kwargs.get('pk'))
         return context
 
     def get_queryset(self):
-        return Answer.objects.filter(question=self.kwargs.get('pk')).order_by('-rating', '-created_at')
+        target_question = self.kwargs.get('pk')
+        return Answer.objects.filter(question=target_question).order_by('-rating', '-created_at')
 
 
 class QuestionsByTagView(ListView):
@@ -48,7 +45,7 @@ class QuestionsByTagView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(id=self.kwargs.get("pk"))
+        context['tag'] = get_object_or_404(Tag, id=self.kwargs.get("pk"))
         return context
 
     def get_queryset(self):
@@ -65,4 +62,4 @@ class AskTemplate(LoginRequiredMixin, TemplateView):
 
 
 def signup(request):
-    return render(request, 'signup.html')
+    return render(request, 'registration/signup.html')
