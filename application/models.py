@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 def user_directory_path(instance, filename):
@@ -50,7 +48,7 @@ class Question(models.Model):
     hot_questions = HotQuestionsManager()
 
     def __str__(self):
-        return '{}; user: {}; updated_at: {}'.format(self.title, self.question_author, self.updated_at)
+        return '{}...; user: {}; updated_at: {}'.format(self.title[:15], self.question_author, self.updated_at)
 
 
 class Answer(models.Model):

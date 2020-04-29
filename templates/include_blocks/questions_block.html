@@ -16,19 +16,13 @@
         </div>
         <div class="row">
             <div class="col-4 question_answers">
-                <a href="#">answers(3)</a>
+                <a href="{% url 'answers-to-question' question.id %}">answers ({{question.answers.all|length}})</a>
             </div>
             <div class="col-2 question_tags_title">
                 <p>Tags:</p>
             </div>
             <div class="col-6 quesion_tags">
-                {% if question.tags.count > 0 %}
-                <ul class="list-inline">
-                    {% for tag in question.tags.all %}
-                    <li class="list-inline-item"><a href="{% url 'questions-by-tag' tag.id %}">{{tag.name}}</a></li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                {% include 'include_blocks/tags_block.html' %}
             </div>
         </div>
     </div>

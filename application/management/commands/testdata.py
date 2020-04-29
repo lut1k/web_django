@@ -4,9 +4,8 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from application.models import Question, Tag, Answer, User
 
-USERS_COUNT = 10
-QUESTIONS_COUNT = 200
-ANSWERS_COUNT = 200
+USERS_COUNT = 100
+QUESTIONS_COUNT = 500
 
 
 # TODO дописать заполнение лайков после реализации логики лайков
@@ -104,10 +103,11 @@ class TestDataForDb:
             "during your interview to respond to technical questions using a whiteboard.",
         )
         for question in questions:
-            answer = Answer(text=random.choice(text_for_select) * random.randint(1, 3),
-                            question=question,
-                            answer_author=random.choice(users),
-                            rating=random.randint(1, 100),
-                            )
-            answer.save()
+            for _ in range(random.randint(1, 100)):
+                answer = Answer(text=random.choice(text_for_select) * random.randint(1, 3),
+                                question=question,
+                                answer_author=random.choice(users),
+                                rating=random.randint(1, 100),
+                                )
+                answer.save()
         stdout_writer.stdout.write("Created test data: ANSWERS")

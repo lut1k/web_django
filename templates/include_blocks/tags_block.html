@@ -1,0 +1,7 @@
+{% if question.tags.count > 0 %}
+    <ul class="list-inline">
+        {% for tag in question.tags.all %}
+        <li class="list-inline-item"><a href="{% url 'questions-by-tag' tag.id %}">{{tag.name}}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
