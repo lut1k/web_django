@@ -18,7 +18,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from application.views import HomeListView, UserSettings, UserProfile
+from application.views import HomeListView, UserSettings, UserProfile, AksPasswordChangeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +29,8 @@ urlpatterns += [
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('accounts/profile/', UserProfile.as_view(), name='profile'),
-    path('accounts/settings/', UserSettings.as_view(), name='settings'),
+    path('accounts/profile/edit/', UserSettings.as_view(), name='settings'),
+    path('accounts/password/change/', AksPasswordChangeView.as_view(), name='password-change'),
 ]
 
 # Use include() to add URLS from the application

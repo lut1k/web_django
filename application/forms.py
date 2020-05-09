@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 from application.models import LaskUser
 
 
@@ -8,6 +7,6 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = LaskUser
-        fields = ('username', 'email', 'nick_name', 'first_name', 'last_name', 'avatar')
+        fields = ('email', 'nick_name', 'first_name', 'last_name', 'avatar')
 
 

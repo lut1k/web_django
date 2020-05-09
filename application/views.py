@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -13,6 +14,10 @@ class HomeListView(ListView):
     context_object_name = 'questions'
     paginate_by = 20
     queryset = Question.new_questions.all()
+
+
+class AskTemplate(LoginRequiredMixin, TemplateView):
+    template_name = 'ask.html'
 
 
 class HotQuestionsListView(ListView):
@@ -62,7 +67,7 @@ class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = LaskUser
     form_class = UserSettingsForm
     success_url = reverse_lazy("settings")
-    success_message = "User’s personal data has changed"
+    success_message = "User personal data has changed"
     template_name = 'registration/settings.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -75,8 +80,10 @@ class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
-class AskTemplate(LoginRequiredMixin, TemplateView):
-    template_name = 'ask.html'
+class AksPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
+    template_name = 'registration/password_change.html'
+    success_url = reverse_lazy("profile")
+    success_message = "User password changed"
 
 
 def signup(request):
