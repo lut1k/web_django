@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# Add Django site authentication urls (for login, logout)
+# Add Django site authentication urls (for login, logout, profile, settings)
 urlpatterns += [
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),

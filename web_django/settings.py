@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application.apps.ApplicationConfig',
     'widget_tweaks',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'application.LaskUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

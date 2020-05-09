@@ -1,11 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, UpdateView
 from application.forms import UserSettingsForm
-from application.models import Question, Tag, Answer, Profile
+from application.models import Question, Tag, Answer, LaskUser
 
 
 class HomeListView(ListView):
@@ -60,9 +59,9 @@ class UserProfile(TemplateView):
 
 
 class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
-    model = Profile
+    model = LaskUser
     form_class = UserSettingsForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("settings")
     success_message = "User’s personal data has changed"
     template_name = 'registration/settings.html'
 

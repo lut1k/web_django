@@ -2,7 +2,7 @@ import time
 import random
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from application.models import Question, Tag, Answer, User
+from application.models import Question, Tag, Answer, LaskUser
 
 USERS_COUNT = 100
 QUESTIONS_COUNT = 500
@@ -33,9 +33,8 @@ class TestDataForDb:
             random_name = random.choice(names_for_login)
             login = random_name + postfix_time
             email = random_name + postfix_time + "@mail.ru"
-            user = User.objects.create_user(login, email, _password)
-            user.profile.nick_name = random_name
-            user.save()
+            nick_name = random_name
+            LaskUser.objects.create_user(username=login, email=email, password=_password, nick_name=nick_name)
         stdout_writer.stdout.write("Created test data: USERS")
 
     @classmethod
@@ -51,7 +50,7 @@ class TestDataForDb:
 
     @classmethod
     def create_questions(cls):
-        users = User.objects.all()
+        users = LaskUser.objects.all()
         tags = Tag.objects.all()
         titles_for_select = ("How do you handle source control?",
                              "What is abstraction with regards to.NET?",
@@ -90,7 +89,7 @@ class TestDataForDb:
 
     @classmethod
     def create_answers(cls):
-        users = User.objects.all()
+        users = LaskUser.objects.all()
         questions = Question.objects.all()
         text_for_select = (
             "Also, review this list of common IT interview questions and take the time to prepare responses "

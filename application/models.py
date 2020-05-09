@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 
@@ -6,14 +6,13 @@ def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class LaskUser(AbstractUser):
     nick_name = models.CharField(max_length=20, blank=True)
-    avatar = models.ImageField(upload_to=user_directory_path)
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True)
     rating = models.IntegerField(default=0)
 
-    def __str__(self):
-        return "{}".format(self.user)
+    class Meta(AbstractUser.Meta):
+        pass
 
 
 class Tag(models.Model):
@@ -36,7 +35,7 @@ class HotQuestionsManager(models.Manager):
 class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
-    question_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    question_author = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(default=0)
@@ -54,7 +53,7 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.TextField()
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    answer_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer_author = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField()

@@ -1,14 +1,14 @@
 from django.contrib import admin
-from application.models import Profile, Question, Tag, Like, Answer
+from application.models import Question, Tag, Like, Answer, LaskUser
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'rating']
-    ordering = ['user']
+    list_display = ['username', 'rating']
+    ordering = ['username']
     search_fields = ['user_id']
 
     class Meta:
-        model = Profile
+        model = LaskUser
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -19,7 +19,7 @@ class QuestionAdmin(admin.ModelAdmin):
         model = Question
 
 
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(LaskUser, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer)
 admin.site.register(Tag)
