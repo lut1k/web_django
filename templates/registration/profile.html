@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}<title>l-ASK/Profile</title>{% endblock %}
+{% block content_header %}<h3>Profile: {{user.username}}</h3>{% endblock %}
+{% block content %}
+{% if user.first_name and user.last_name %}
+<p>Hello, {{ user.first_name }} {{ user.last_name}}!</p>
+{% else %}
+<p>Hello!</p>
+{% endif %}
+{% endblock %}

@@ -2,9 +2,9 @@
 
 {% load static %}
 {%block title%}<title>l-ASK/settings</title>{% endblock %}
+{% block content_header %}<h2>Settings: {{user.username}} </h2>{% endblock %}
 {%block content%}
-<h2>Settings: Dr. Pepper</h2>
-<form class="settings_form" action="" method="POST">
+<form class="settings_form" action="{% url 'settings' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group row">
         <label for="login" class="col-sm-3 col-form-label">Login</label>
@@ -15,7 +15,7 @@
     <div class="form-group row">
         <label for="email" class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
-          <input type="email" class="form-control" name="login" id="login" placeholder="Enter your email">
+          <input type="email" class="form-control" name="login" id="email" placeholder="Enter your email">
         </div>
     </div>
     <div class="form-group row">

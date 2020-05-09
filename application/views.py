@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView
-from application.models import Question, Tag, Answer
+from django.urls import reverse_lazy
+from django.views.generic import ListView, TemplateView, UpdateView
+from application.forms import UserSettingsForm
+from application.models import Question, Tag, Answer, Profile
 
 
-class HomeLisView(ListView):
+class HomeListView(ListView):
     model = Question
     template_name = 'index.html'
     context_object_name = 'questions'
@@ -52,9 +55,25 @@ class QuestionsByTagView(ListView):
         return Question.objects.filter(tags=self.kwargs.get("pk")).order_by('-rating')
 
 
-@login_required
-def settings(request):
-    return render(request, 'settings.html')
+class UserProfile(TemplateView):
+    template_name = 'registration/profile.html'
+
+
+class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = UserSettingsForm
+    success_url = reverse_lazy("home")
+    success_message = "User’s personal data has changed"
+    template_name = 'registration/settings.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
 
 
 class AskTemplate(LoginRequiredMixin, TemplateView):
