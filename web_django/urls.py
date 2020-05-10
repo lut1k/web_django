@@ -14,29 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.staticfiles.views import serve
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from application.views import HomeListView, UserSettings, UserProfile, AksPasswordChangeView
+from django.views.decorators.cache import never_cache
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('application.urls', namespace='')),
 ]
 
-# Add Django site authentication urls (for login, logout, profile, settings)
-urlpatterns += [
-    path('accounts/login/', LoginView.as_view(), name='login'),
-    path('accounts/logout/', LogoutView.as_view(), name='logout'),
-    path('accounts/profile/', UserProfile.as_view(), name='profile'),
-    path('accounts/profile/edit/', UserSettings.as_view(), name='settings'),
-    path('accounts/password/change/', AksPasswordChangeView.as_view(), name='password-change'),
-]
 
-# Use include() to add URLS from the application
-urlpatterns += [
-    path('', include('application.urls'))
-]
+if settings.DEBUG:
+    urlpatterns.append(path('static/<path:path>', never_cache(serve)))
 
 # Use static() to add url mapping to serve static files during development (only)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \

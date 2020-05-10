@@ -10,6 +10,8 @@ class LaskUser(AbstractUser):
     nick_name = models.CharField(max_length=20, blank=True)
     avatar = models.ImageField(upload_to=user_directory_path, blank=True)
     rating = models.IntegerField(default=0)
+    send_messages = models.BooleanField(default=True, verbose_name="Send you a notification?")
+    is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Passed activation?')
 
     class Meta(AbstractUser.Meta):
         pass

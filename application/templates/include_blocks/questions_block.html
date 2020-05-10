@@ -9,14 +9,14 @@
     </div>
     <div class="col-10 question_body">
         <div class="row question_title">
-            <a href="{% url 'answers-to-question' question.id %}"><u>{{question.title}}</u></a>
+            <a href="{% url 'application:answers-to-question' question.id %}"><u>{{question.title}}</u></a>
         </div>
         <div class="row question_text">
             <p>{{ question.text }}</p>
         </div>
         <div class="row">
             <div class="col-4 question_answers">
-                <a href="{% url 'answers-to-question' question.id %}">answers ({{question.answers.all|length}})</a>
+                <a href="{% url 'application:answers-to-question' question.id %}">answers ({{question.answers.all|length}})</a>
             </div>
             <div class="col-2 question_tags_title">
                 <p>Tags:</p>

@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, get_object_or_404
+from django.core.signing import BadSignature
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, UpdateView
-from application.forms import UserSettingsForm
+from django.views.generic import ListView, TemplateView, UpdateView, CreateView
+from application.forms import UserSettingsForm, RegisterUserForm
 from application.models import Question, Tag, Answer, LaskUser
+from application.utilities import signer
 
 
 class HomeListView(ListView):
@@ -59,16 +61,24 @@ class QuestionsByTagView(ListView):
         return Question.objects.filter(tags=self.kwargs.get("pk")).order_by('-rating')
 
 
+class AskLoginView(LoginView):
+    template_name = 'app_registration/login.html'
+
+
+class AskLogoutView(LoginRequiredMixin, LogoutView):
+    template_name = 'app_registration/logged_out.html'
+
+
 class UserProfile(TemplateView):
-    template_name = 'registration/profile.html'
+    template_name = 'app_registration/profile.html'
 
 
 class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = LaskUser
     form_class = UserSettingsForm
-    success_url = reverse_lazy("settings")
+    success_url = reverse_lazy("application:settings")
     success_message = "User personal data has changed"
-    template_name = 'registration/settings.html'
+    template_name = 'app_registration/settings.html'
 
     def dispatch(self, request, *args, **kwargs):
         self.user_id = request.user.pk
@@ -81,10 +91,33 @@ class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 class AksPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
-    template_name = 'registration/password_change.html'
-    success_url = reverse_lazy("profile")
+    template_name = 'app_registration/password_change.html'
+    success_url = reverse_lazy("application:profile")
     success_message = "User password changed"
 
 
-def signup(request):
-    return render(request, 'registration/signup.html')
+class RegisterUserView(CreateView):
+    model = LaskUser
+    template_name = 'app_registration/register_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('application:register-done')
+
+
+class RegisterDoneView(TemplateView):
+    template_name = 'app_registration/register_done.html'
+
+
+def user_activate(request, sign):
+    try:
+        username = signer.unsign(sign)
+    except BadSignature:
+        return render(request, 'app_registration/bad_signature.html')
+    user = get_object_or_404(LaskUser, username=username)
+    if user.is_activated:
+        template = 'app_registration/user_is_activated.html'
+    else:
+        template = 'app_registration/activation_done.html'
+        user.is_active = True
+        user.is_activated = True
+        user.save()
+    return render(request, template)

@@ -7,7 +7,7 @@
 <p>You are already signed in.</p>
 
 {% else %}
-<form class="login_form" action="{% url 'login' %}" method="POST">
+<form class="login_form" action="{% url 'application:login' %}" method="POST">
     {%include "include_blocks/form.html" with is_columns=True %}
     <div class="form-group row">
         <div class="col-sm-10 offset-2">
@@ -16,7 +16,7 @@
     </div>
     <div class="form-group row">
         <div class="col-sm-10 offset-2">
-            <a href="{% url 'signup' %}">create new account</a>
+            <a href="{% url 'application:register' %}">create new account</a>
         </div>
     </div>
 </form>

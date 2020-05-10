@@ -14,9 +14,9 @@
   </head>
   <body>
     <header>
-      <div class="navbar navbar-expand-md navbar-light bg-light border-bottom header fixed-top">
-        <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'images/logo.jpg' %}" width="30" height="30" alt="l-ask">
+      <div class="navbar navbar-expand-md navbar-dark bg-dark border-bottom header fixed-top">
+        <a class="navbar-brand" href="{% url 'application:home' %}">
+        <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="l-ask">
         l-ask
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,35 +25,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <form class="form-inline my-2 my-lg-0 form_search">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
           </form>
           <div class="btn_ask">
-            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'ask' %}">ASK!</a>
+            <a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'application:ask' %}">ASK!</a>
           </div>
 
           <div class="navbar-nav my-2 my-lg-0 ml-auto">
             <div class="nav-item dropdown btn-group">
                 {% if user.is_authenticated %}
                     <div class="header_avatar">
-                      <a href="{% url 'profile' %}" class="mr-2"><img src="{% static 'images/avatar_default.jpg' %}" class="avatar-sm"></a>
+                      <a href="{% url 'application:profile' %}" class="mr-2"><img src="{% static 'images/avatar_default.jpg' %}" class="avatar-sm"></a>
                     </div>
-                      <a class="nav-link active" href="{% url 'profile' %}">{{ user.username }}</a>
+                      <a class="nav-link active" href="{% url 'application:profile' %}">{{ user.username }}</a>
                     <a class="nav-link dropdown-toggle dropdown-toggle-split" id="account" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="true"><span class="sr-only">Toggle Dropdown</span></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="account">
-                        <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
-                        <a class="dropdown-item" href="{% url 'password-change' %}">Change password</a>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logged out</a>
+                        <a class="dropdown-item" href="{% url 'application:settings' %}">Settings</a>
+                        <a class="dropdown-item" href="{% url 'application:password-change' %}">Change password</a>
+                        <a class="dropdown-item" href="{% url 'application:logout' %}">Logged out</a>
                     </div>
                 {% else %}
                     <div class="btn-group">
-                        <a href="{% url 'login' %}" type="button" class="btn btn-info">Login</a>
+                        <a href="{% url 'application:login' %}" type="button" class="btn btn-info">Login</a>
                         <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'signup' %}">Registration</a>
+                            <a class="dropdown-item" href="{% url 'application:register' %}">Registration</a>
                         </div>
                     </div>
                 {% endif %}
@@ -92,7 +92,7 @@
     <div class="container">
       <footer class="page-footer font-small special-color-dark pt-4">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-          <a href="{% url 'home' %}"> l-ask</a>
+          <a href="{% url 'application:home' %}"> l-ask</a>
         </div>
       </footer>
     </div>

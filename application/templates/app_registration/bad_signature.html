@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{%block title%}<title>Activation error</title>{% endblock %}
+{% block content_header %}<h3>Activation error</h3>{% endblock %}
+{%block content%}
+<div class="row border block_with_question">
+    <div class="col-12">
+        <p>User activation with this name failed.</p>
+        <p><a href="{% url 'application:register' %}">Register again</a></p>
+    </div>
+</div>
+{% endblock %}

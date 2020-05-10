@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{%block title%}<title>Activation completed</title>{% endblock %}
+{% block content_header %}<h3>Activation completed</h3>{% endblock %}
+{%block content%}
+<div class="row border block_with_question">
+    <div class="col-12">
+        <p>User with this name has been activated previously.</p>
+        <p><a href="{% url 'application:login' %}">Login to the site</a></p>
+    </div>
+</div>
+{% endblock %}

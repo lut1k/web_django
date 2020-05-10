@@ -3,9 +3,9 @@ from application.models import Question, Tag, Like, Answer, LaskUser
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['username', 'rating']
+    list_display = ['username', 'avatar', 'email', 'first_name', 'last_name', 'rating', 'send_messages', 'is_activated']
     ordering = ['username']
-    search_fields = ['user_id']
+    search_fields = ['username']
 
     class Meta:
         model = LaskUser

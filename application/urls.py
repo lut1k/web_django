@@ -1,11 +1,26 @@
 from django.urls import path
 from application import views
+from .views import UserSettings, UserProfile, AksPasswordChangeView, RegisterUserView, RegisterDoneView, \
+    user_activate, AskLoginView, AskLogoutView
+
+app_name = 'application'
 
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
     path('hot/', views.HotQuestionsListView.as_view(), name='hot-questions'),
     path('tag/<int:pk>/', views.QuestionsByTagView.as_view(), name='questions-by-tag'),
     path('question/<int:pk>/', views.AnswersToQuestionList.as_view(), name='answers-to-question'),
-    path('signup/', views.signup, name='signup'),
     path('ask/', views.AskTemplate.as_view(), name='ask'),
+]
+
+# Add Django site authentication urls (for login, register, profile, settings)
+urlpatterns += [
+    path('accounts/login/', AskLoginView.as_view(), name='login'),
+    path('accounts/logout/', AskLogoutView.as_view(), name='logout'),
+    path('accounts/profile/', UserProfile.as_view(), name='profile'),
+    path('accounts/profile/edit/', UserSettings.as_view(), name='settings'),
+    path('accounts/password/change/', AksPasswordChangeView.as_view(), name='password-change'),
+    path('accounts/register/', RegisterUserView.as_view(), name='register'),
+    path('accounts/register/done/', RegisterDoneView.as_view(), name='register-done'),
+    path('accounts/register/activate/<str:sign>/', user_activate, name='register-activate'),
 ]

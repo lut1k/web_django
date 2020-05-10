@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content_header %}<h3>New Questions</h3>{% endblock %}
-{% block content_header_link %}<h3><a href="{% url 'hot-questions' %}">Hot Questions</a></h3>{% endblock %}
+{% block content_header_link %}<h3><a href="{% url 'application:hot-questions' %}">Hot Questions</a></h3>{% endblock %}
 {%block content%}
     {% include 'include_blocks/questions_block.html' %}
     {% include 'include_blocks/paginator.html' %}

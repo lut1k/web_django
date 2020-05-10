@@ -5,7 +5,7 @@
 {% block content_header %}<h2>Settings: {{user.username}} </h2>{% endblock %}
 
 {%block content%}
-<form class="settings_form" action="{% url 'settings' %}" method="POST" enctype="multipart/form-data">
+<form class="settings_form" action="{% url 'application:settings' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% include "include_blocks/form.html" with is_columns=True %}
     <div class="row">
