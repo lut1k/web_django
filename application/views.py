@@ -4,7 +4,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.template import TemplateDoesNotExist
+from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
 from application.forms import UserSettingsForm, RegisterUserForm
@@ -18,6 +21,14 @@ class HomeListView(ListView):
     context_object_name = 'questions'
     paginate_by = 20
     queryset = Question.new_questions.all()
+
+
+def other_page(request, page):
+    try:
+        template = get_template(page + '.html')
+    except TemplateDoesNotExist:
+        raise Http404
+    return HttpResponse(template.render(request=request))
 
 
 class AskTemplate(LoginRequiredMixin, TemplateView):
