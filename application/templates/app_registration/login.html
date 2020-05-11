@@ -7,6 +7,15 @@
 <p>You are already signed in.</p>
 
 {% else %}
+<div class="row">
+    <div class="col-sm-2">
+        <p>Sign in with:</p>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-primary" href="{% url 'social:begin' 'vk-oauth2' %}">Вконтакте</a>
+    </div>
+</div>
+<br>
 <form class="login_form" action="{% url 'application:login' %}" method="POST">
     {%include "include_blocks/form.html" with is_columns=True %}
     <div class="form-group row">

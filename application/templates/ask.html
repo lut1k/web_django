@@ -2,8 +2,8 @@
 
 {% load static %}
 {%block title%}<title>l-ASK/ask</title>{% endblock %}
+{% block content_header %}<h2>New Question</h2>{% endblock %}
 {%block content%}
-<h2>New Question</h2>
 <form class="ASK_form"method="POST">
     {% csrf_token %}
     <div class="form-group row">

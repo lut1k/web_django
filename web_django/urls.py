@@ -26,6 +26,10 @@ urlpatterns = [
     path('', include('application.urls', namespace='')),
 ]
 
+# Python Social Auth urls
+urlpatterns += [
+    path('social/', include('social_django.urls', namespace='social')),
+]
 
 if settings.DEBUG:
     urlpatterns.append(path('static/<path:path>', never_cache(serve)))
