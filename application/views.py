@@ -1,10 +1,12 @@
+from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, UpdateView, CreateView
+from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
 from application.forms import UserSettingsForm, RegisterUserForm
 from application.models import Question, Tag, Answer, LaskUser
 from application.utilities import signer
@@ -121,3 +123,23 @@ def user_activate(request, sign):
         user.is_activated = True
         user.save()
     return render(request, template)
+
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = LaskUser
+    template_name = 'app_registration/delete_user.html'
+    success_url = reverse_lazy('application:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        messages.add_message(request, messages.SUCCESS, 'User deleted')
+        return super().post(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
