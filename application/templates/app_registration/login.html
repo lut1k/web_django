@@ -9,10 +9,10 @@
 {% else %}
 <div class="row">
     <div class="col-sm-2">
-        <p>Sign in with:</p>
+        <span>Sign in with:</span>
     </div>
-    <div class="col-md-3">
-        <a class="btn btn-primary" href="{% url 'social:begin' 'vk-oauth2' %}">Вконтакте</a>
+    <div class="col-md-10">
+        <a class="btn-floating btn-lg" href="{% url 'social:begin' 'vk-oauth2' %}"><i class="fab fa-vk"></i></a>
     </div>
 </div>
 <br>

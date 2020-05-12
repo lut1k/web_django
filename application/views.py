@@ -1,16 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
-from application.forms import UserSettingsForm, RegisterUserForm
+from application.forms import UserSettingsForm, RegisterUserForm, AskForm
 from application.models import Question, Tag, Answer, LaskUser
 from application.utilities import signer
 
@@ -31,8 +32,19 @@ def other_page(request, page):
     return HttpResponse(template.render(request=request))
 
 
-class AskTemplate(LoginRequiredMixin, TemplateView):
+class AskTemplate(LoginRequiredMixin, CreateView):
+    model = Question
+    form_class = AskForm
     template_name = 'ask.html'
+    success_message = "Question created"
+    success_url = '/question/{id}/'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs
 
 
 class HotQuestionsListView(ListView):
@@ -103,7 +115,7 @@ class UserSettings(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
-class AksPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
+class AskPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
     template_name = 'app_registration/password_change.html'
     success_url = reverse_lazy("application:profile")
     success_message = "User password changed"

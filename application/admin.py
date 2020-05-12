@@ -56,6 +56,7 @@ class LaskUserAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ['title', 'question_author', 'rating', 'created_at']
     ordering = ['rating']
+    search_fields = ['title']
 
     class Meta:
         model = Question
