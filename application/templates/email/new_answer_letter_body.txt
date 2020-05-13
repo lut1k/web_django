@@ -1,1 +1,11 @@
-question
+Dear user {{ user.username }}
+
+On the website "l-ASK", a new answer has appeared to
+your question - "{{ question.title }}"
+To watch it, follow the link:
+
+{{ host }}{% url 'application:answers-to-question' pk=question.id %}
+
+Bye!
+
+Sincerely, the administration of the site "l-ASK".

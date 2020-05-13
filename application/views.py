@@ -1,17 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
-from application.forms import UserSettingsForm, RegisterUserForm, AskForm
+from django.views.generic.list import MultipleObjectMixin
+from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm
 from application.models import Question, Tag, Answer, LaskUser
 from application.utilities import signer
 
@@ -36,7 +36,6 @@ class AskTemplate(LoginRequiredMixin, CreateView):
     model = Question
     form_class = AskForm
     template_name = 'ask.html'
-    success_message = "Question created"
     success_url = '/question/{id}/'
 
     def get_form_kwargs(self):
@@ -55,20 +54,37 @@ class HotQuestionsListView(ListView):
     queryset = Question.hot_questions.all()
 
 
-class AnswersToQuestionList(ListView):
+class AnswersToQuestionList(MultipleObjectMixin, CreateView):
     model = Answer
+    form_class = AnswerForm
     template_name = 'question.html'
     paginate_by = 30
     context_object_name = 'answers'
 
+    def dispatch(self, request, *args, **kwargs):
+        self.target_question = self.kwargs.get('pk')
+        self.object_list = self.get_queryset()
+        self.question = get_object_or_404(Question, id=self.target_question)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'author': self.request.user,
+            'question': self.question,
+        })
+        return kwargs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['question'] = get_object_or_404(Question, id=self.kwargs.get('pk'))
+        context['question'] = self.question
         return context
 
     def get_queryset(self):
-        target_question = self.kwargs.get('pk')
-        return Answer.objects.filter(question=target_question).order_by('-rating', '-created_at')
+        return Answer.objects.filter(question=self.target_question).order_by('-rating', 'created_at')
+
+    def get_success_url(self):
+        return reverse_lazy('application:answers-to-question', kwargs=({'pk': self.target_question}))
 
 
 class QuestionsByTagView(ListView):

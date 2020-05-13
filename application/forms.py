@@ -82,9 +82,28 @@ class AskForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ('title', 'text', 'tags')
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': "Enter a title..."}),
+            'text': forms.Textarea(attrs={'placeholder': "Enter a question..."}),
+        }
+        labels = {'text': 'Question text'}
 
 
 class AnswerForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': "Enter your answer..."}), label='')
+
+    def __init__(self, author, question, *args, **kwargs):
+        self.author = author
+        self.question = question
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        answer = super().save(commit=False)
+        answer.answer_author = self.author
+        answer.question = self.question
+        if commit:
+            answer.save()
+        return answer
 
     class Meta:
         model = Answer

@@ -35,11 +35,19 @@
 
 <div class="row">
     <div class="col-12">
-        <form action="/" method="post" class="form_for_answer">
+        {% if user.is_authenticated %}
+        <a name="answer_from"></a>
+        <form  method="post" class="form_for_answer">
             {% csrf_token %}
-            <div><textarea rows="10" name="text" placeholder="Enter your answer here"></textarea></div>
+            {% include "include_blocks/form.html" %}
             <button type="submit" class="btn btn-primary my-1">Answer</button>
         </form>
+
+        {% else %}
+        <p>
+            To answer, you need <a href="{% url 'application:login' %}?next={{ request.get_full_path }}#answer_from">log in</a>.
+        </p>
+    {% endif %}
     </div>
 </div>
 

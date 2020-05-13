@@ -49,7 +49,7 @@ class Question(models.Model):
     hot_questions = HotQuestionsManager()
 
     def __str__(self):
-        return '{}...; user: {}; updated_at: {}'.format(self.title[:15], self.question_author, self.updated_at)
+        return '{}...; user: {};'.format(self.title[:15], self.question_author)
 
 
 class Answer(models.Model):
@@ -58,10 +58,10 @@ class Answer(models.Model):
     answer_author = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
-        return "{}, updated_at: {}; text: {}".format(self.answer_author, self.updated_at, self.text[:20])
+        return "{}; text: {}".format(self.answer_author, self.text[:50])
 
 
 class Like(models.Model):
