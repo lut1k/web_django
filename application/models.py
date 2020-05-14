@@ -1,17 +1,19 @@
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-
-def user_directory_path(instance, filename):
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
+from application.utilities import get_user_directory_path
 
 
 class LaskUser(AbstractUser):
     nick_name = models.CharField(max_length=20, blank=True)
-    avatar = models.ImageField(upload_to=user_directory_path, blank=True)
+    avatar = models.ImageField(upload_to=get_user_directory_path, blank=True)
     rating = models.IntegerField(default=0)
     send_messages = models.BooleanField(default=True, verbose_name="Send you a notification?")
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Passed activation?')
+
+    def get_avatar(self):
+        if not self.avatar:
+            return '/static/images/avatar_default.jpg'
+        return self.avatar.url
 
     class Meta(AbstractUser.Meta):
         pass

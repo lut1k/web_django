@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% load static %}
 {%block title%}<title>Answers to question</title>{% endblock %}
 {%block content%}
 <div class="row border-bottom block_with_question">
     <div class="col-2 col-md-2 p-0 question_avatar">
-        <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
+        <img src="{{ question.question_author.get_avatar }}" class="card-img img-fluid" alt="avatar">
         <div class="question_likes">
             <a class="text-center" href="#">likes</a>
         </div>
@@ -36,8 +35,8 @@
 <div class="row">
     <div class="col-12">
         {% if user.is_authenticated %}
-        <a name="answer_from"></a>
-        <form  method="post" class="form_for_answer">
+        <a id="answer_form"></a>
+        <form  method="post" class="form_for_answer" action="{{ request.get_full_path }}">
             {% csrf_token %}
             {% include "include_blocks/form.html" %}
             <button type="submit" class="btn btn-primary my-1">Answer</button>
@@ -45,7 +44,7 @@
 
         {% else %}
         <p>
-            To answer, you need <a href="{% url 'application:login' %}?next={{ request.get_full_path }}#answer_from">log in</a>.
+            To answer, you need <a href="{% url 'application:login' %}?next={{ request.get_full_path }}#answer_form">log in</a>.
         </p>
     {% endif %}
     </div>

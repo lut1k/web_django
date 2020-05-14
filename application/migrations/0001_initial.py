@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('nick_name', models.CharField(blank=True, max_length=20)),
-                ('avatar', models.ImageField(blank=True, upload_to=application.models.user_directory_path)),
+                ('avatar', models.ImageField(blank=True, upload_to=application.models.get_user_directory_path)),
                 ('rating', models.IntegerField(default=0)),
                 ('send_messages', models.BooleanField(default=True, verbose_name='Send you a notification?')),
                 ('is_activated', models.BooleanField(db_index=True, default=True, verbose_name='Passed activation?')),

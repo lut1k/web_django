@@ -1,8 +1,7 @@
-{% load static %}
 {% for answer in answers %}
 <div class="row border block_with_answer">
     <div class="col-1 p-0 answer_avatar">
-        <img src="{% static 'images/avatar_default.jpg' %}" class="card-img img-fluid" alt="avatar">
+        <img src="{{ answer.answer_author.get_avatar }}" class="card-img img-fluid" alt="avatar">
         <div class="answer_likes">
             <a class="text-center" href="#">likes</a>
         </div>

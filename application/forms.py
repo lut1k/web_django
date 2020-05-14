@@ -1,12 +1,15 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.forms import FileInput
+
 from application.models import LaskUser, Question, Tag, Answer
 from .signals import user_registrated
 
 
 class UserSettingsForm(forms.ModelForm):
     email = forms.EmailField(required=True, label='Email')
+    avatar = forms.ImageField(label='Avatar', required=False, widget=FileInput)
 
     class Meta:
         model = LaskUser
@@ -52,15 +55,26 @@ class RegisterUserForm(forms.ModelForm):
 
 
 class AskForm(forms.ModelForm):
-    tags = forms.CharField(max_length=50, label='Question tags',
+    tags = forms.CharField(max_length=50,
+                           label='Question tags',
+                           widget=forms.TextInput(attrs={'placeholder': 'Enter a tags ...'}),
                            help_text='You can add up to three tags to the question. Enter a comma ","')
+
+    class Meta:
+        model = Question
+        fields = ('title', 'text', 'tags')
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': "Enter a title ..."}),
+            'text': forms.Textarea(attrs={'placeholder': "Enter a question ..."}),
+        }
+        labels = {'text': 'Question text'}
 
     def __init__(self, user, *args, **kwargs):
         self._user = user
         super().__init__(*args, **kwargs)
 
     def clean_tags(self):
-        tags = self.cleaned_data['tags'].split(',')
+        tags = [tag.strip() for tag in self.cleaned_data['tags'].split(',')]
         if len(tags) > 3:
             raise forms.ValidationError(u'Maximum 3 tags.', code='tags_count')
         return tags
@@ -79,18 +93,13 @@ class AskForm(forms.ModelForm):
             question.tags.add(tag)
         return question
 
-    class Meta:
-        model = Question
-        fields = ('title', 'text', 'tags')
-        widgets = {
-            'title': forms.TextInput(attrs={'placeholder': "Enter a title..."}),
-            'text': forms.Textarea(attrs={'placeholder': "Enter a question..."}),
-        }
-        labels = {'text': 'Question text'}
-
 
 class AnswerForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': "Enter your answer..."}), label='')
+
+    class Meta:
+        model = Answer
+        fields = ['text']
 
     def __init__(self, author, question, *args, **kwargs):
         self.author = author
@@ -105,6 +114,7 @@ class AnswerForm(forms.ModelForm):
             answer.save()
         return answer
 
-    class Meta:
-        model = Answer
-        fields = ['text']
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(required=False, max_length=20, label='',
+                              widget=forms.Textarea(attrs={'placeholder': "Search..."}))

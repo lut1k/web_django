@@ -22,7 +22,7 @@
 </head>
 <body>
   <header>
-    <div class="navbar navbar-expand-md navbar-dark stylish-color border-bottom header fixed-top">
+    <div class="navbar navbar-expand-md navbar-dark stylish-color-dark header fixed-top">
       <a class="navbar-brand" href="{% url 'application:home' %}">
       <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="l-ask">
       l-ask
@@ -33,17 +33,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline my-2 my-lg-0 form_search">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          <button class="btn btn-sm align-middle btn-outline-white my-2 my-sm-0" type="submit">Search</button>
         </form>
         <div class="btn_ask">
-          <a class="btn btn-outline-light my-2 my-sm-0" href="{% url 'application:ask' %}">ASK!</a>
+          <a class="btn btn-sm align-middle btn-outline-white my-2 my-sm-0" href="{% url 'application:ask' %}">ASK!</a>
         </div>
 
         <div class="navbar-nav my-2 my-lg-0 ml-auto">
           <div class="nav-item dropdown btn-group">
               {% if user.is_authenticated %}
                   <div class="header_avatar">
-                    <a href="{% url 'application:profile' %}" class="mr-2"><img src="{% static 'images/avatar_default.jpg' %}" class="avatar-sm"></a>
+                    <a href="{% url 'application:profile' %}" class="mr-2 avatar-sm"><img src="{{ user.get_avatar }}"></a>
                   </div>
                     <a class="nav-link active" href="{% url 'application:profile' %}">{{ user.username }}</a>
                   <a class="nav-link dropdown-toggle dropdown-toggle-split" id="account" data-toggle="dropdown"

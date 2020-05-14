@@ -1,0 +1,32 @@
+{% for question in questions %}
+<div class="jumbotron text-center hoverable p-2">
+    <div class="row block_with_question mx-0">
+        <div class="col-1 p-1 question_avatar">
+            <img src="{{ question.question_author.get_avatar }}" class="card-img img-fluid" alt="avatar">
+            <div class="question_likes">
+                <span class="badge badge-pill badge-primary">{{ question.rating }}</span>
+                <a class="text-center" href="#"><i class="far fa-thumbs-up"></i></a>
+            </div>
+        </div>
+        <div class="col-10 question_body">
+            <div class="row question_title">
+                <a href="{% url 'application:answers-to-question' question.id %}">{{ question.title|truncatechars:90 }}</a>
+            </div>
+            <div class="row question_text">
+                <p>{{ question.text|truncatechars_html:430 }}</p>
+            </div>
+            <div class="row">
+                <div class="col-4 question_answers">
+                    <a href="{% url 'application:answers-to-question' question.id %}"><span class="badge badge-pill badge-primary">answers ({{question.answers.all|length}})</span></a>
+                </div>
+                <div class="col-2 question_tags_title">
+                    <p>Tags:</p>
+                </div>
+                <div class="col-6 quesion_tags">
+                    {% include 'include_blocks/tags_block.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

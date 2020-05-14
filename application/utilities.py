@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+from os.path import splitext
 from django.core.signing import Signer
 from django.template.loader import render_to_string
 from web_django.settings import ALLOWED_HOSTS
@@ -34,3 +37,7 @@ def send_new_answer_notification(answer):
     subject = render_to_string('email/new_answer_letter_subject.txt', context)
     body_text = render_to_string('email/new_answer_letter_body.txt', context)
     user.email_user(subject, body_text)
+
+
+def get_user_directory_path(instance, filename):
+    return os.path.join("user_{}".format(instance.id), "{}{}".format(datetime.now().timestamp(), splitext(filename)[1]))

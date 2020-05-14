@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
@@ -54,7 +54,7 @@ class HotQuestionsListView(ListView):
     queryset = Question.hot_questions.all()
 
 
-class AnswersToQuestionList(MultipleObjectMixin, CreateView):
+class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
     model = Answer
     form_class = AnswerForm
     template_name = 'question.html'
