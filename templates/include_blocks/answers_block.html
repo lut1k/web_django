@@ -1,10 +1,18 @@
 {% for answer in answers %}
-<div class="row border block_with_answer">
+<div class="row border-bottom block_with_answer mt-5 mb-5 mr-3">
     <div class="col-1 p-0 answer_avatar">
-        <img src="{{ answer.answer_author.get_avatar }}" class="card-img img-fluid" alt="avatar">
-        <div class="answer_likes">
-            <a class="text-center" href="#">likes</a>
-        </div>
+        <div class="row mb-2">
+                <div class="col-10 mx-auto">
+                    <img src="{{ answer.answer_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
+                </div>
+            </div>
+        <div class="row">
+                <div class="col text-center">
+                    <a class="text-center" href="#"><i class="far fa-thumbs-down"></i></a>
+                    <span class="badge badge-pill badge-primary">{{ question.rating }}</span>
+                    <a class="text-center" href="#"><i class="far fa-thumbs-up"></i></a>
+                </div>
+            </div>
     </div>
     <div class="col-11 answer_body">
         <p>{{ answer.text }}</p>
