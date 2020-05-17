@@ -1,16 +1,20 @@
 {% for question in questions %}
 <div class="jumbotron hoverable p-2">
     <div class="row block_with_question mx-0">
-        <div class="col-2 col-md-2 p-0 question_avatar">
+        <div class="col-2 p-0 question_avatar">
             <div class="row mb-2">
                 <div class="col-8 mx-auto">
                     <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
                 </div>
             </div>
             <div class="row">
-                <div class="col text-center">
+                <div class="col-12 col-lg-4 text-center text-lg-right px-0">
                     <a class="text-center" href="#"><i class="far fa-thumbs-down"></i></a>
+                </div>
+                <div class="col-12 col-lg-4 text-center">
                     <span class="badge badge-pill badge-primary">{{ question.rating }}</span>
+                </div>
+                <div class="col-12 col-lg-4 text-center  text-lg-left px-0">
                     <a class="text-center" href="#"><i class="far fa-thumbs-up"></i></a>
                 </div>
             </div>

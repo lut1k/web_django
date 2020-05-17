@@ -17,7 +17,7 @@
 </div>
 <br>
 <form class="login_form" action="{% url 'application:login' %}" method="POST">
-    {%include "include_blocks/form.html" with is_columns=True %}
+    {% include "include_blocks/form.html" with is_columns=True %}
     <div class="form-group row">
         <div class="col-sm-10 offset-2">
             <button type="submit" class="btn btn-primary">Log in!</button>
@@ -31,3 +31,4 @@
 </form>
 {% endif %}
 {% endblock %}
+{% block right_blocks %}{% endblock %}
