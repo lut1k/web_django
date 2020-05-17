@@ -31,16 +31,16 @@
     <span class="navbar-toggler-icon"></span>
   </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0 ml-1">
+        <form class="form-inline my-1 my-md-0 ml-1">
           <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-sm align-middle btn-info my-2 my-sm-0 ml-2" type="submit">Search</button>
+          <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">Search</button>
         </form>
-        <div class="btn_ask">
-          <a class="btn btn-sm align-middle btn-info my-2 my-sm-0 ml-2" href="{% url 'application:ask' %}">ASK!</a>
-        </div>
-        <div class="navbar-nav my-2 my-lg-0 ml-auto">
+        <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:ask' %}">
+          <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">ASK!</button>
+        </form>
+        <div class="navbar-nav my-1 my-md-0 ml-0 ml-md-auto">
           {% if user.is_authenticated %}
-          <ul class="navbar-nav ml-auto nav-flex-icons">
+          <ul class="navbar-nav ml-0 ml-md-auto nav-flex-icons">
               <li class="nav-item avatar dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
@@ -55,8 +55,12 @@
               </li>
           </ul>
           {% else %}
-            <a class="btn btn-sm align-middle btn-info my-2 my-sm-0 ml-1" href="{% url 'application:login' %}">Log in</a>
-            <a class="btn btn-sm align-middle btn-info my-2 my-sm-0 ml-1" href="{% url 'application:register' %}">Sign up</a>
+            <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:login' %}">
+              <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">Log in</button>
+            </form>
+            <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:register' %}">
+              <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">Sign up</button>
+            </form>
           {% endif %}
         </div>
       </div>

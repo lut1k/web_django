@@ -20,8 +20,9 @@
                 <div class="col-8">
                     <a href="{% url 'application:answers-to-question' question.id %}">{{ question.title|truncatechars:90 }}</a>
                 </div>
-                <div class="col-4 align-self-center">
+                <div class="col-4 align-self-center text-truncate">
                     <span>asked {{ question.created_at|date:"M j 'y" }}</span>
+                    <br>
                     <a href="#">{{ question.question_author.username }}</a>
                 </div>
             </div>
@@ -29,13 +30,13 @@
                 <p>{{ question.text|truncatechars_html:430 }}</p>
             </div>
             <div class="row">
-                <div class="col-3 question_answers">
+                <div class="col-12 col-md-3 question_answers">
                     <a href="{% url 'application:answers-to-question' question.id %}"><span class="badge badge-pill badge-primary">answers ({{question.answers.all|length}})</span></a>
                 </div>
-                <div class="col-2 question_tags_title text-right">
+                <div class="col-2 col-md-2 question_tags_title text-right">
                     <p>Tags:</p>
                 </div>
-                <div class="col-7 question_tags">
+                <div class="col-10 col-md-7 question_tags">
                     {% include 'include_blocks/tags_block.html' %}
                 </div>
             </div>
