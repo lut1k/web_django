@@ -24,7 +24,7 @@ def send_activation_notification(user):
 
 def send_new_answer_notification(answer):
     if ALLOWED_HOSTS:
-        host = 'http://' + ALLOWED_HOSTS[0]
+        host = 'http://' + ALLOWED_HOSTS[3]
     else:
         host = 'http://localhost:8000'
     user = answer.question.question_author
