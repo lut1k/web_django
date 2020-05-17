@@ -19,7 +19,7 @@ class Command(BaseCommand):
     help = 'Adds test data to the database'
 
     def handle(self, *args, **options):
-        # TestDataForDb.create_users()
+        TestDataForDb.create_users()
         TestDataForDb.create_tags()
         TestDataForDb.create_questions()
         TestDataForDb.create_answers()
