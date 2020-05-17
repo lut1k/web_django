@@ -1,0 +1,55 @@
+/* HEADER */
+
+.header_avatar img{
+    height: 35px;
+}
+
+/* BLOCK CONTENT QUESTIONS */
+
+.question_body .question_title a{
+    font-size: 15pt;
+}
+.question_body .question_title span{
+    font-size: 10pt;
+}
+.question_body .question_title .col-4 a{
+    font-size: 10pt;
+}
+.question_answers a{
+    line-height: 40px;
+}
+.question_tags_title{
+    height: 40px;
+}
+.question_tags_title p{
+    line-height: 40px;
+}
+.question_tags{
+    height: 40px;
+}
+.question_tags ul{
+    line-height: 40px;
+}
+
+/* BLOCK CONTENT ANSWERS */
+
+.form_for_answer div{
+    margin-bottom: 5px;
+}
+.form_for_answer div textarea{
+    width: 100%;
+    height: 120px;
+    resize: none;
+}
+
+/* BLOCK CONTENT ASK */
+.ASK_form div div textarea{
+    width: 100%;
+    height: 300px;
+    resize: none;
+}
+
+/* BLOCK CONTENT SETTINGS */
+.settings-avatar img{
+    height: 150px;
+}
