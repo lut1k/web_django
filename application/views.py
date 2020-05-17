@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
-from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm
+from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm, LaskAuthenticationForm
 from application.models import Question, Tag, Answer, LaskUser
 from application.utilities import signer
 
@@ -104,6 +104,7 @@ class QuestionsByTagView(ListView):
 
 class AskLoginView(LoginView):
     template_name = 'app_registration/login.html'
+    authentication_form = LaskAuthenticationForm
 
 
 class AskLogoutView(LoginRequiredMixin, LogoutView):

@@ -1,10 +1,21 @@
 from django import forms
 from django.contrib.auth import password_validation
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.forms import FileInput
-
 from application.models import LaskUser, Question, Tag, Answer
 from .signals import user_registrated
+
+
+class LaskAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(required=True,
+                               label='',
+                               widget=forms.TextInput(attrs={'placeholder': "Login"})
+                               )
+    password = forms.CharField(label='',
+                               widget=forms.PasswordInput(attrs={'placeholder': "Password"}),
+                               help_text=password_validation.password_validators_help_text_html()
+                               )
 
 
 class UserSettingsForm(forms.ModelForm):
