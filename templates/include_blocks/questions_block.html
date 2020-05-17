@@ -22,16 +22,16 @@
         <div class="col-10 question_body">
             <div class="row question_title">
                 <div class="col-8">
-                    <a href="{% url 'application:answers-to-question' question.id %}">{{ question.title|truncatechars:90 }}</a>
+                    <a href="{% url 'application:answers-to-question' question.id %}" class="text-break">{{ question.title|truncatechars:90 }}</a>
                 </div>
                 <div class="col-4 align-self-center text-truncate">
                     <span>asked {{ question.created_at|date:"M j 'y" }}</span>
                     <br>
-                    <a href="#">{{ question.question_author.username }}</a>
+                    <a href="#" class="text-break">{{ question.question_author.username }}</a>
                 </div>
             </div>
             <div class="row question_text mt-2">
-                <p>{{ question.text|truncatechars_html:430 }}</p>
+                <p class="text-break">{{ question.text|truncatechars_html:430 }}</p>
             </div>
             <div class="row">
                 <div class="col-12 col-md-3 question_answers">

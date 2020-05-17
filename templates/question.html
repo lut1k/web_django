@@ -21,15 +21,15 @@
         <div class="col-10 question_body">
             <div class="row question_title">
                 <div class="col-8">
-                    <h5>{{ question.title }}</h5>
+                    <h5 class="text-break">{{ question.title }}</h5>
                 </div>
                 <div class="col-4 align-self-center">
                     <span>asked {{ question.created_at|date:"M j 'y \a\t G:i" }}</span>
-                    <a href="#">{{ question.question_author.username }}</a>
+                    <a href="#" class="text-break">{{ question.question_author.username }}</a>
                 </div>
             </div>
             <div class="row question_text mt-2">
-                <p>{{question.text}}</p>
+                <p class="text-break">{{question.text}}</p>
             </div>
             <div class="row">
                 <div class="col-md-2 question_tags_title text-right">
