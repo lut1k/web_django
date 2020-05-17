@@ -10,7 +10,7 @@ signer = Signer()
 
 def send_activation_notification(user):
     if ALLOWED_HOSTS:
-        host = 'http://' + ALLOWED_HOSTS[0]
+        host = 'http://' + ALLOWED_HOSTS[3]
     else:
         host = 'http://localhost:8000'
     context = {'user': user,
