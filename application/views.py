@@ -50,7 +50,7 @@ class HotQuestionsListView(ListView):
     model = Question
     template_name = 'hot.html'
     context_object_name = 'questions'
-    paginate_by = 10
+    paginate_by = 20
     queryset = Question.hot_questions.all()
 
 
@@ -58,7 +58,7 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
     model = Answer
     form_class = AnswerForm
     template_name = 'question.html'
-    paginate_by = 30
+    paginate_by = 20
     context_object_name = 'answers'
 
     def dispatch(self, request, *args, **kwargs):
