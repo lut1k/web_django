@@ -1,4 +1,3 @@
-import time
 import random
 from django.contrib.auth.hashers import make_password
 from faker import Faker
@@ -19,9 +18,9 @@ class Command(BaseCommand):
     help = 'Adds test data to the database'
 
     def handle(self, *args, **options):
-        # TestDataForDb.create_users()
-        # TestDataForDb.create_tags()
-        # TestDataForDb.create_questions()
+        TestDataForDb.create_users()
+        TestDataForDb.create_tags()
+        TestDataForDb.create_questions()
         TestDataForDb.create_answers()
 
 

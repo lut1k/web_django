@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Count
 from application.utilities import get_user_directory_path
 
 
@@ -33,7 +36,7 @@ class NewQuestionsManager(models.Manager):
 
 class HotQuestionsManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('-rating', '-created_at')
+        return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
 
 
 class Question(models.Model):
@@ -42,7 +45,7 @@ class Question(models.Model):
     question_author = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.IntegerField(default=0)
+    rating = GenericRelation('Like')
     tags = models.ManyToManyField(Tag, blank=True)
     correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.CASCADE)
 
@@ -53,6 +56,17 @@ class Question(models.Model):
     def __str__(self):
         return '{}...; user: {};'.format(self.title[:15], self.question_author)
 
+    @property
+    def total_likes(self):
+        return self.rating.count()
+
+
+class HotAnswersManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('-rating', 'created_at')
+        # TODO раскомментить после реализации лайка для ответов.
+        # return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
+
 
 class Answer(models.Model):
     text = models.TextField()
@@ -62,9 +76,18 @@ class Answer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(default=0)
 
+    objects = models.Manager()
+    hot_answers = HotAnswersManager()
+
     def __str__(self):
         return "{}; text: {}".format(self.answer_author, self.text[:50])
 
 
 class Like(models.Model):
-    pass
+    user = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default='')
+    object_id = models.PositiveIntegerField(default=0)
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return "Like. user - {}. object - {}".format(self.user, self.content_object)

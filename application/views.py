@@ -81,7 +81,7 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
         return context
 
     def get_queryset(self):
-        return Answer.objects.filter(question=self.target_question).order_by('-rating', 'created_at')
+        return Answer.hot_answers.filter(question=self.target_question)
 
     def get_success_url(self):
         return reverse_lazy('application:answers-to-question', kwargs=({'pk': self.target_question}))

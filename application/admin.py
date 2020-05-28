@@ -43,7 +43,7 @@ class LaskUserAdmin(admin.ModelAdmin):
         ('first_name', 'last_name'),
         ('send_messages', 'is_active', 'is_activated'),
         ('is_staff', 'is_superuser'),
-        'groups', 'user_permissions',
+        ('groups', 'user_permissions'),
         ('last_login', 'date_joined'),
               )
     readonly_fields = ('last_login', 'date_joined')
@@ -54,7 +54,7 @@ class LaskUserAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'question_author', 'rating', 'created_at']
+    list_display = ['title', 'question_author', 'created_at']
     ordering = ['rating']
     search_fields = ['title']
 
