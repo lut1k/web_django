@@ -13,8 +13,10 @@
                 </div>
                 <div class="col-6 px-0">
                     <span class="align-middle">
-                        <a href="#" data-object="{{ question }}" data-action="{% if request.user %}">
-                            <i class="far fa-heart"></i>
+<!--                        TODO потом поменять question -> object для использования во всем проекте -->
+<!--                        <a href="#" data-object="{% with question as object %}{% endwith %}" data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like">-->
+                        <a href="#" class='like' data-object="{{ question }}" data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like">
+                            <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart"></i>
                         </a>
                     </span>
                 </div>

@@ -56,9 +56,11 @@ class Question(models.Model):
     def __str__(self):
         return '{}...; user: {};'.format(self.title[:15], self.question_author)
 
-    @property
     def total_likes(self):
         return self.rating.count()
+
+    def get_users_id_who_liked_question(self):
+        return self.rating.all().values_list('user_id', flat=True)
 
 
 class HotAnswersManager(models.Manager):
