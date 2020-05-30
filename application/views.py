@@ -1,18 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
 from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm, LaskAuthenticationForm
 from application.models import Question, Tag, Answer, LaskUser
+from application.services import add_like, remove_like
 from application.utilities import signer
 
 
@@ -183,3 +186,18 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         if not queryset:
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
+
+
+@login_required
+@require_POST
+def like_object(request):
+    object = request.POST.get('object')
+    action = request.POST.get('action')
+    user = request.user
+    if object and action:
+        if action == 'like':
+            add_like(object, user)
+        elif action == 'unlike':
+            remove_like(object, user)
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'ok'})

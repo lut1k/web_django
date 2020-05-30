@@ -12,6 +12,7 @@ urlpatterns = [
     path('question/<int:pk>/', views.AnswersToQuestionList.as_view(), name='answers-to-question'),
     path('ask/', views.AskTemplate.as_view(), name='ask'),
     path('<str:page>/', other_page, name='other'),
+    path('like/', views.like_object, name='like'),
 ]
 
 # Add Django site authentication urls (for login, register, profile, settings)
