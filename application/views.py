@@ -17,7 +17,7 @@ from django.views.generic import ListView, TemplateView, UpdateView, CreateView,
 from django.views.generic.list import MultipleObjectMixin
 from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm, LaskAuthenticationForm
 from application.models import Question, Tag, Answer, LaskUser
-from application.services import add_like, remove_like
+from application.services import add_like, remove_like, login_required_ajax
 from application.utilities import signer
 
 
@@ -190,7 +190,7 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
-@login_required
+@login_required_ajax
 @require_POST
 def like_object(request):
     user = request.user
@@ -214,4 +214,4 @@ def like_object(request):
                              'like_count': like_count,
                              'id_obj_like': obj.id,
                              })
-    return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'})

@@ -35,9 +35,6 @@ $(document).ready(function(){
                         $('a.like.' + id_obj_like + ' i').removeClass('fas fa-heart').addClass('far fa-heart');
                         $('span.' + id_obj_like).text(total_likes);
                     }
-                } else if (data['status'] === 'error' && data['code'] === 'no_auth') {
-                    // TODO допилить всплывающее окно
-                    window.location.href('accounts/login/');
                 }
             }
         )

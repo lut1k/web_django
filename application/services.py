@@ -1,5 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.urls import reverse
+
 from .models import Like
 
 
@@ -52,3 +56,19 @@ def get_fans(obj):
         likes__content_type=obj_type,
         likes__object_id=obj.id
     )
+
+
+# common decorators
+
+
+def login_required_ajax(view):
+    def view2(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return view(request, *args, **kwargs)
+        elif request.is_ajax():
+            return JsonResponse({'status': 'error',
+                                 'code': 'no_auth',
+                                 })
+        else:
+            redirect(reverse('application:login'))
+    return view2
