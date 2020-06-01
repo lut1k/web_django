@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'social_django',
     'whitenoise.runserver_nostatic',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [

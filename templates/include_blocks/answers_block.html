@@ -7,12 +7,20 @@
                 </div>
             </div>
         <div class="row">
-                <div class="col text-center">
-                    <a class="text-center" href="#"><i class="far fa-thumbs-down"></i></a>
-                    <span class="badge badge-pill badge-primary">{{ answer.rating }}</span>
-                    <a class="text-center" href="#"><i class="far fa-thumbs-up"></i></a>
-                </div>
+            <div class="col-6 text-right pr-1">
+                <span class="badge badge-pill badge-primary">{{ answer.total_likes }}</span>
             </div>
+            <div class="col-6 px-0">
+                <span class="align-middle">
+                    <a href="" class='like {{ answer.id }}'
+                       data-id="{{ answer.id }}"
+                       data-action="{% if request.user.id in answer.get_users_id_who_liked_question %}un{% endif %}like"
+                       data-type="{{ answer.get_class }}">
+                        <i class="fa{% if request.user.id in answer.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
     </div>
     <div class="col-11 answer_body">
         <p class="text-break">{{ answer.text }}</p>

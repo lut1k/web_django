@@ -1,3 +1,5 @@
+import re
+import importlib
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -191,13 +193,25 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
 @login_required
 @require_POST
 def like_object(request):
-    object = request.POST.get('object')
-    action = request.POST.get('action')
     user = request.user
-    if object and action:
+    object_id = request.POST.get('id')
+    action = request.POST.get('action')
+    class_object = re.search('\w*\.\w*\.\w*', request.POST.get('type')).group(0)
+
+    # Определяю class "понравившегося" объекта
+    module_name, dot, classname = class_object.rpartition('.')
+    module = importlib.import_module(module_name)
+    klass = getattr(module, classname)
+
+    obj = get_object_or_404(klass, id=object_id)
+    if obj and action:
         if action == 'like':
-            add_like(object, user)
+            add_like(obj, user)
         elif action == 'unlike':
-            remove_like(object, user)
-        return JsonResponse({'status': 'ok'})
+            remove_like(obj, user)
+        like_count = obj.total_likes()
+        return JsonResponse({'status': 'ok',
+                             'like_count': like_count,
+                             'id_obj_like': obj.id,
+                             })
     return JsonResponse({'status': 'ok'})

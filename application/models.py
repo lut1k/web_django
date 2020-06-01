@@ -62,12 +62,13 @@ class Question(models.Model):
     def get_users_id_who_liked_question(self):
         return self.rating.all().values_list('user_id', flat=True)
 
+    def get_class(self):
+        return self.__class__
+
 
 class HotAnswersManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('-rating', 'created_at')
-        # TODO раскомментить после реализации лайка для ответов.
-        # return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
+        return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
 
 
 class Answer(models.Model):
@@ -76,13 +77,22 @@ class Answer(models.Model):
     answer_author = models.ForeignKey(LaskUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.IntegerField(default=0)
+    rating = GenericRelation('Like')
 
     objects = models.Manager()
     hot_answers = HotAnswersManager()
 
     def __str__(self):
         return "{}; text: {}".format(self.answer_author, self.text[:50])
+
+    def total_likes(self):
+        return self.rating.count()
+
+    def get_users_id_who_liked_question(self):
+        return self.rating.all().values_list('user_id', flat=True)
+
+    def get_class(self):
+        return self.__class__
 
 
 class Like(models.Model):
