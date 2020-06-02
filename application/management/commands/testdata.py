@@ -10,7 +10,7 @@ USERS_COUNT = 500
 QUESTIONS_COUNT = 500
 ANSWERS_COUNT = 3000
 TAGS_COUNT = 2000
-VOTES_COUNT = 10000
+VOTES_COUNT = 500
 
 
 # python manage.py testdata
@@ -18,10 +18,10 @@ class Command(BaseCommand):
     help = 'Adds test data to the database'
 
     def handle(self, *args, **options):
-        TestDataForDb.create_users()
-        TestDataForDb.create_tags()
-        TestDataForDb.create_questions()
-        TestDataForDb.create_answers()
+        # TestDataForDb.create_users()
+        # TestDataForDb.create_tags()
+        # TestDataForDb.create_questions()
+        # TestDataForDb.create_answers()
         TestDataForDb.create_likes()
 
 

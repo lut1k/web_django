@@ -17,8 +17,7 @@
                            data-id="{{ question.id }}"
                            data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
                            data-type="{{ question.get_class }}">
-                            <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}>
-                            </i>
+                            <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
                         </a>
                     </span>
                 </div>
