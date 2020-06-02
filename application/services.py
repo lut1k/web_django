@@ -1,16 +1,13 @@
+import importlib
+import re
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from django.urls import reverse
 
 from .models import Like
 
 
 # Functions for implementing likes.
 User = get_user_model()
-
-
 def add_like(obj, user):
     """Add a like to an `obj`.
     """
@@ -58,17 +55,13 @@ def get_fans(obj):
     )
 
 
-# common decorators
+def get_type_object_from_str(string: str):
+    """From string '<class 'application.models.Question'>' return class 'application.models.Question'."""
+    class_object = re.search('\w*\.\w*\.\w*', string).group(0)
+    module_name, dot, classname = class_object.rpartition('.')
+    module = importlib.import_module(module_name)
+    klass = getattr(module, classname)
+    return klass
 
 
-def login_required_ajax(view):
-    def view2(request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return view(request, *args, **kwargs)
-        elif request.is_ajax():
-            return JsonResponse({'status': 'error',
-                                 'code': 'no_auth',
-                                 })
-        else:
-            redirect(reverse('application:login'))
-    return view2
+

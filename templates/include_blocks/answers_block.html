@@ -24,12 +24,18 @@
     </div>
     <div class="col-11 answer_body">
         <p class="text-break">{{ answer.text }}</p>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-            <label class="form-check-label" for="defaultCheck1">
-                Correct
-            </label>
-        </div>
+        {% if user == question.question_author %}
+        <span class="align-bottom">
+            <a href="" class='correct-answer {{ answer.id }}' data-question_id="{{ question.id }}" data-answer_id="{{ answer.id }}">
+                <i class="{% if answer == question.correct_answer  %}far fa-check-square{% else %}far fa-square{% endif %} material-tooltip-main" data-toggle="tooltip" data-placement="right" title="Click here to mark this answer as correct."></i>
+            </a>
+        </span>
+        {% endif %}
+        {% if answer == question.correct_answer %}
+        <span class="align-bottom">
+            <i class="fas fa-check">Correct</i>
+        </span>
+        {% endif %}
     </div>
 </div>
 {% endfor %}

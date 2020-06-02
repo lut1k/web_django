@@ -52,7 +52,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <span>{{  question.answers.all|length }} Answers. </span>
+        <span>{{  question.answers.all|length }} Answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}.</span>
     </div>
 </div>
 {% include 'include_blocks/answers_block.html' %}

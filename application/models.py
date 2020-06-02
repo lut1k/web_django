@@ -65,6 +65,11 @@ class Question(models.Model):
     def get_class(self):
         return self.__class__
 
+    def choose_correct_answer(self, answer):
+        if answer in self.answers.all():
+            self.correct_answer = answer
+            self.save()
+
 
 class HotAnswersManager(models.Manager):
     def get_queryset(self):

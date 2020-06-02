@@ -12,6 +12,7 @@ urlpatterns = [
     path('question/<int:pk>/', views.AnswersToQuestionList.as_view(), name='answers-to-question'),
     path('ask/', views.AskTemplate.as_view(), name='ask'),
     path('like/', views.like_object, name='like'),
+    path('correct_answer/', views.correct_answer, name='correct-answer'),
     path('<str:page>/', other_page, name='other'),
 ]
 

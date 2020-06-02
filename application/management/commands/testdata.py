@@ -1,18 +1,18 @@
 import random
 from django.contrib.auth.hashers import make_password
+from django.contrib.contenttypes.models import ContentType
 from faker import Faker
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from application.models import Question, Tag, Answer, LaskUser
+from application.models import Question, Tag, Answer, LaskUser, Like
 
 USERS_COUNT = 500
 QUESTIONS_COUNT = 500
 ANSWERS_COUNT = 3000
 TAGS_COUNT = 2000
-VOTES_COUNT = 1000
+VOTES_COUNT = 10000
 
 
-# TODO дописать заполнение лайков после реализации логики лайков
 # python manage.py testdata
 class Command(BaseCommand):
     help = 'Adds test data to the database'
@@ -22,6 +22,7 @@ class Command(BaseCommand):
         TestDataForDb.create_tags()
         TestDataForDb.create_questions()
         TestDataForDb.create_answers()
+        TestDataForDb.create_likes()
 
 
 stdout_writer = Command()
@@ -83,3 +84,20 @@ class TestDataForDb:
                                   ))
         Answer.objects.bulk_create(answers, ANSWERS_COUNT)
         stdout_writer.stdout.write("Created test data: ANSWERS")
+
+    @classmethod
+    def create_likes(cls):
+        answers = Answer.objects.all()
+        questions = Question.objects.all()
+        users = LaskUser.objects.all()
+        likes = []
+        for _ in range(VOTES_COUNT):
+            obj1 = random.choice(answers)
+            obj2 = random.choice(questions)
+            obj = random.choice([obj1, obj2])
+            likes.append(Like(user=random.choice(users),
+                              content_type=ContentType.objects.get_for_model(obj),
+                              object_id=obj.id,
+                              ))
+        Like.objects.bulk_create(likes, VOTES_COUNT)
+        stdout_writer.stdout.write("Created test data: Likes")

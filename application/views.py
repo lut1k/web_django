@@ -1,24 +1,45 @@
-import re
-import importlib
+import json
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
-from django.http import Http404, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, TemplateView, UpdateView, CreateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
 from application.forms import UserSettingsForm, RegisterUserForm, AskForm, AnswerForm, LaskAuthenticationForm
 from application.models import Question, Tag, Answer, LaskUser
-from application.services import add_like, remove_like, login_required_ajax
+from application.services import add_like, remove_like, get_type_object_from_str
 from application.utilities import signer
+
+
+class HttpResponseAjax(HttpResponse):
+    def __init__(self, status='ok', **kwargs):
+        kwargs['status'] = status
+        super(HttpResponseAjax, self).__init__(content=json.dumps(kwargs), content_type='application/json')
+
+
+class HttpResponseAjaxError(HttpResponseAjax):
+    def __init__(self, code, message):
+        super(HttpResponseAjaxError, self).__init__(status='error', code=code, message=message)
+
+
+# Check auth in Ajax
+def login_required_ajax(view):
+    def view2(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return view(request, *args, **kwargs)
+        elif request.is_ajax():
+            return HttpResponseAjaxError(code="no_auth", message=u'Authorization required')
+        else:
+            redirect(reverse('application:login'))
+    return view2
 
 
 class HomeListView(ListView):
@@ -46,7 +67,7 @@ class AskTemplate(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({
-            'user': self.request.user
+            'user': self.request.user,
         })
         return kwargs
 
@@ -196,13 +217,7 @@ def like_object(request):
     user = request.user
     object_id = request.POST.get('id')
     action = request.POST.get('action')
-    class_object = re.search('\w*\.\w*\.\w*', request.POST.get('type')).group(0)
-
-    # Определяю class "понравившегося" объекта
-    module_name, dot, classname = class_object.rpartition('.')
-    module = importlib.import_module(module_name)
-    klass = getattr(module, classname)
-
+    klass = get_type_object_from_str(request.POST.get('type'))
     obj = get_object_or_404(klass, id=object_id)
     if obj and action:
         if action == 'like':
@@ -210,8 +225,17 @@ def like_object(request):
         elif action == 'unlike':
             remove_like(obj, user)
         like_count = obj.total_likes()
-        return JsonResponse({'status': 'ok',
-                             'like_count': like_count,
-                             'id_obj_like': obj.id,
-                             })
-    return JsonResponse({'status': 'error'})
+        return HttpResponseAjax(like_count=like_count, id_obj_like=obj.id)
+    return HttpResponseAjaxError(code='outside error', message='server error')
+
+
+@login_required_ajax
+@require_POST
+def correct_answer(request):
+    user = request.user
+    question = get_object_or_404(Question, id=request.POST.get('question_id'))
+    if user != question.question_author:
+        return HttpResponseBadRequest()
+    answer = get_object_or_404(Answer, id=request.POST.get('answer_id'))
+    question.choose_correct_answer(answer)
+    return HttpResponseAjax(correct_answer_id=answer.id)
