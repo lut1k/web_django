@@ -21,81 +21,88 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<header class="navbar navbar-expand-md navbar-light white sticky-top mb-3">
-  <div class="container-fluid">
-  <a class="navbar-brand" href="{% url 'application:home' %}">
-  <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="l-ask">
-  l-ask
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-1 my-md-0 ml-1">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2 disabled" type="submit">Search</button>
-        </form>
-        <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:ask' %}">
-          <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">ASK!</button>
-        </form>
-        <div class="navbar-nav my-1 my-md-0 ml-0 ml-md-auto">
-          {% if user.is_authenticated %}
-          <ul class="navbar-nav ml-0 ml-md-auto nav-flex-icons">
-              <li class="nav-item avatar dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <img src="{{ user.get_avatar }}" class="rounded-circle z-depth-0" alt="avatar image" height="35px">
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
-                  <a class="dropdown-item" href="{% url 'application:settings' %}">Settings</a>
-                  <a class="dropdown-item" href="{% url 'application:password-change' %}">Change password</a>
-                  <a class="dropdown-item" href="{% url 'application:logout' %}">Logged out</a>
-                  <a class="dropdown-item" href="{% url 'application:profile-delete' %}">Delete user</a>
-                </div>
-              </li>
-          </ul>
-          {% else %}
-            <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:login' %}">
-              <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">Log in</button>
-            </form>
-            <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:register' %}">
-              <button class="btn btn-sm btn-info my-1 my-md-0 ml-0 ml-sm-2" type="submit">Sign up</button>
-            </form>
-          {% endif %}
-        </div>
+  <header class="navbar navbar-expand-md navbar-light white fixed-top mb-3">
+    <a class="navbar-brand" href="{% url 'application:home' %}">
+    <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="l-ask">
+    l-ask
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <form class="form-inline my-1 my-md-0 ml-1">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-sm btn-blue-grey my-1 my-md-0 ml-0 ml-sm-2 disabled" type="submit"><i class="fas fa-search"></i> Search</button>
+      </form>
+      <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:ask' %}">
+        <button class="btn btn-sm btn-blue-grey my-1 my-md-0 ml-0 ml-sm-2" type="submit"><i class="far fa-question-circle"></i> ASK</button>
+      </form>
+      <div class="navbar-nav my-1 my-md-0 ml-0 ml-md-auto">
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav ml-0 ml-md-auto nav-flex-icons">
+            <li class="nav-item avatar dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <img src="{{ user.get_avatar }}" class="rounded-circle z-depth-0" alt="avatar image" height="35px">
+              </a>
+              <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
+                <a class="dropdown-item" href="{% url 'application:settings' %}">Settings</a>
+                <a class="dropdown-item" href="{% url 'application:password-change' %}">Change password</a>
+                <a class="dropdown-item" href="{% url 'application:logout' %}">Logged out</a>
+                <a class="dropdown-item" href="{% url 'application:profile-delete' %}">Delete user</a>
+              </div>
+            </li>
+        </ul>
+        {% else %}
+          <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:login' %}">
+            <button class="btn btn-sm btn-blue-grey my-1 my-md-0 ml-0 ml-sm-2" type="submit">Log in</button>
+          </form>
+          <form class="form-inline my-1 my-md-0 ml-1" action="{% url 'application:register' %}">
+            <button class="btn btn-sm btn-blue-grey my-1 my-md-0 ml-0 ml-sm-2" type="submit">Sign up</button>
+          </form>
+        {% endif %}
       </div>
-  </div>
-</header>
-<main>
-  <div class="container">
-    <div class="row">
+    </div>
+  </header>
+
+  <main>
+  <div class="container-fluid">
+    <div class="row justify-content-md-center">
+
       {% block right_blocks %}
-        <div class="col-md-3 order-2">
+        <div class="col-12 col-md-2 order-3 border-left">
         {% include 'include_blocks/popular_tags.html' %}
         {% include 'include_blocks/best_members.html' %}
+        </div>
       {% endblock %}
+
+      {% block left_blocks %}
+      <div class="col-md-2 order-md-1 d-none d-md-block border-right">
+        {% include 'include_blocks/left_block.html' %}
       </div>
-      <div class="col order-1 block_content">
+      {% endblock %}
+
+      <div class="col-12 col-md-8 order-2 block_content">
         <div class="row">
           <section class="col-12">
             {% bootstrap_messages %}
           </section>
         </div>
         <div class="row">
-          <div class="col-6 col-md-6 questions_title text-center m-0">
+          <div class="col-12 m-0">
               {% block content_header %}{% endblock %}
           </div>
-          <div class="col-6 col-md-6 questions_title text-center m-0">
+          <div class="col-12 col-md-6 ml-auto m-0">
             {% block content_header_link %}{% endblock %}
           </div>
         </div>
-          <br>
         {% block content %}{% endblock %}
       </div>
 
     </div>
   </div>
-</main>
+  </main>
+
   <!-- Footer -->
   <footer class="page-footer font-small unique-color-dark pt-4">
     <!-- Footer Elements -->

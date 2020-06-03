@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {%block title%}<title>Hot questions</title>{% endblock %}
 {% block content_header %}<h3>Hot Questions</h3>{% endblock %}
-{% block content_header_link %}<h3><a href="{% url 'application:home' %}">New Questions</a></h3>{% endblock %}
+
+{% block content_header_link %}
+<div class="btn-group" role="group" aria-label="Filter questions">
+  <a href="{% url 'application:hot-questions' %}" type="button" class="btn btn-blue-grey btn-sm"><i class="fas fa-pepper-hot"></i> Hot</a>
+  <a href="{% url 'application:home' %}" type="button" class="btn btn-blue-grey btn-sm"><i class="fas fa-external-link-alt"></i> New</a>
+  <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="far fa-calendar-plus"></i></i> Week</button>
+  <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="fas fa-calendar-plus"></i></i> Month</button>
+</div>
+{% endblock %}
+
 {%block content%}
     {% include 'include_blocks/questions_block.html' %}
     {% include 'include_blocks/paginator.html' %}

@@ -1,52 +1,50 @@
 {% for question in questions %}
-<div class="jumbotron hoverable p-2" id="question-{{ question.id }}">
-    <div class="row block_with_question mx-0" >
-        <div class="col-2 p-0 question_avatar">
-            <div class="row mb-2">
-                <div class="col-8 mx-auto">
-                    <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 text-right pr-1">
-                    <span class="badge badge-pill badge-primary {{ question.id }}">{{ question.total_likes }}</span>
-                </div>
-                <div class="col-6 px-0">
-                    <span class="align-middle">
-                        <a href="" class='like {{ question.id }}'
-                           data-id="{{ question.id }}"
-                           data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
-                           data-type="{{ question.get_class }}">
-                            <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
-                        </a>
-                    </span>
-                </div>
+<div class="row block_with_question mx-0 my-2 py-2 border-top" >
+    <div class="col-2 p-0 question_avatar">
+        <div class="row mb-2">
+            <div class="col-8 mx-auto">
+                <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
             </div>
         </div>
-        <div class="col-10 question_body">
-            <div class="row question_title">
-                <div class="col-8">
-                    <a href="{% url 'application:answers-to-question' question.id %}" class="text-break">{{ question.title|truncatechars:90 }}</a>
-                </div>
-                <div class="col-4 align-self-center text-truncate">
-                    <span>asked {{ question.created_at|date:"M j 'y" }}</span>
-                    <br>
-                    <a href="#" class="text-break">{{ question.question_author.username }}</a>
-                </div>
+        <div class="row">
+            <div class="col-6 text-right pr-1">
+                <span class="badge badge-pill badge-primary {{ question.id }}">{{ question.total_likes }}</span>
             </div>
-            <div class="row question_text mt-2">
-                <p class="text-break">{{ question.text|truncatechars_html:430 }}</p>
+            <div class="col-6 px-0">
+                <span class="align-middle">
+                    <a href="" class='like {{ question.id }}'
+                       data-id="{{ question.id }}"
+                       data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
+                       data-type="{{ question.get_class }}">
+                        <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
+                    </a>
+                </span>
             </div>
-            <div class="row">
-                <div class="col-12 col-md-3 question_answers">
-                    <a href="{% url 'application:answers-to-question' question.id %}"><span class="badge badge-pill badge-primary">answers ({{question.answers.all|length}})</span></a>
-                </div>
-                <div class="col-2 col-md-2 question_tags_title text-right">
-                    <p>Tags:</p>
-                </div>
-                <div class="col-10 col-md-7 question_tags">
-                    {% include 'include_blocks/tags_block.html' %}
-                </div>
+        </div>
+    </div>
+    <div class="col-10 question_body">
+        <div class="row question_title">
+            <div class="col-8">
+                <a href="{% url 'application:answers-to-question' question.id %}" class="text-break">{{ question.title|truncatechars:90 }}</a>
+            </div>
+            <div class="col-4 align-self-center text-truncate">
+                <span>asked {{ question.created_at|date:"M j 'y" }}</span>
+                <br>
+                <a href="#" class="text-break">{{ question.question_author.username }}</a>
+            </div>
+        </div>
+        <div class="row question_text mt-2">
+            <p class="text-break">{{ question.text|truncatechars_html:430 }}</p>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-3 question_answers">
+                <a href="{% url 'application:answers-to-question' question.id %}"><span class="badge badge-pill badge-primary">answers ({{question.answers.all|length}})</span></a>
+            </div>
+            <div class="col-2 col-md-2 question_tags_title text-right">
+                <p>Tags:</p>
+            </div>
+            <div class="col-10 col-md-7 question_tags">
+                {% include 'include_blocks/tags_block.html' %}
             </div>
         </div>
     </div>
