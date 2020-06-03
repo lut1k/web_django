@@ -1,41 +1,52 @@
 {% for answer in answers %}
-<div class="row border-bottom block_with_answer mt-5 mb-5 mr-3">
-    <div class="col-1 p-0 answer_avatar">
-        <div class="row mb-2">
-                <div class="col-10 mx-auto">
-                    <img src="{{ answer.answer_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
-                </div>
-            </div>
+<div class="row mx-0 my-3 pt-2 border-top">
+    <div class="col-3 col-md-1 order-2 order-md-1">
         <div class="row">
-            <div class="col-6 text-right pr-1">
-                <span class="badge badge-pill badge-primary {{ answer.id }}">{{ answer.total_likes }}</span>
+            <div class="col-12 text-center">
+                <span class="blue-grey-text {{ answer.id }}">{{ answer.total_likes }}</span>
             </div>
-            <div class="col-6 px-0">
-                <span class="align-middle">
+            <div class="col-12 text-center">
+                <span class="blue-grey-text">vote{% if answer.total_likes == 1 %}{% else %}s{% endif %}</span>
+            </div>
+            <div class="col-12 text-center">
+                <span>
                     <a href="" class='like {{ answer.id }}'
                        data-id="{{ answer.id }}"
-                       data-action="{% if request.user.id in answer.get_users_id_who_liked_question %}un{% endif %}like"
+                       data-action="{% if request.user.id in answer.get_users_id_who_liked_answer %}un{% endif %}like"
                        data-type="{{ answer.get_class }}">
-                        <i class="fa{% if request.user.id in answer.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
+                        <i class="blue-grey-text fas fa-chevron-{% if request.user.id in answer.get_users_id_who_liked_answer %}down{% else %}up{% endif %} {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %} data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
                     </a>
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-11 answer_body">
-        <p class="text-break">{{ answer.text }}</p>
-        {% if user == question.question_author %}
-        <span class="align-bottom">
-            <a href="" class='correct-answer {{ answer.id }}' data-question_id="{{ question.id }}" data-answer_id="{{ answer.id }}">
-                <i class="{% if answer == question.correct_answer  %}far fa-check-square{% else %}far fa-square{% endif %} material-tooltip-main" data-toggle="tooltip" data-placement="right" title="Click here to mark this answer as correct."></i>
-            </a>
-        </span>
-        {% endif %}
-        {% if answer == question.correct_answer %}
-        <span class="align-bottom">
-            <i class="fas fa-check material-tooltip-main" data-toggle="tooltip" data-placement="right" title="Only the author of a question can put a mark 'correct'">Correct</i>
-        </span>
-        {% endif %}
+    <div class="col-12 col-md-11 order-1 order-md-2">
+        <span class="text-break">{{answer.text}}</span>
+        <div class="col-12 mt-2">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <a class="nav-link blue-grey-text" href=""><i class="far fa-comment"></i> add a comment</a>
+                </div>
+                <div class="col-6 col-md-4">
+                    {% if user == answer.answer_author %}
+                    <a class="nav-link blue-grey-text" href=""><i class="far fa-edit"></i> edit</a>
+                    <a class="nav-link blue-grey-text" href=""><i class="fas fa-ban"></i> delete</a>
+                    {% endif %}
+                </div>
+                <div class="col-6 col-md-4 border py-2 #eeeeee grey lighten-4">
+                    <div class="row">
+                        <div class="col-4 px-1 px-md-3">
+                            <img src="{{ answer.answer_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
+                        </div>
+                        <div class="col-8 text-truncate">
+                            <span class="text-muted small">answered {{ answer.created_at|date:"M j 'y" }} </span>
+                            <br>
+                            <a href="#" class="text-break small blue-text"> {{ answer.answer_author.username }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endfor %}

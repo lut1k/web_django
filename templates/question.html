@@ -13,8 +13,8 @@
 {% endblock %}
 
 {%block content%}
-<div class="row mb-5">
-    <div class="col-1">
+<div class="row border-bottom pb-2">
+    <div class="col-3 col-md-1 order-2 order-md-1">
         <div class="row">
             <div class="col-12 text-center">
                 <span class="blue-grey-text {{ question.id }}">{{ question.total_likes }}</span>
@@ -34,35 +34,51 @@
             </div>
         </div>
     </div>
-    <div class="col-11">
+    <div class="col-12 col-md-11 order-1 order-md-2">
         <span class="text-break"><b>{{question.text}}</b></span>
         <div class="col-12 my-2 px-0">
         {% include 'include_blocks/tags_block.html' %}
         </div>
         <div class="col-12">
             <div class="row">
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                     <a class="nav-link blue-grey-text" href=""><i class="far fa-comment"></i> add a comment</a>
                 </div>
-                <div class="col-4">
+                <div class="col-6 col-md-4">
                     {% if user == question.question_author %}
                     <a class="nav-link blue-grey-text" href=""><i class="far fa-edit"></i> edit</a>
                     <a class="nav-link blue-grey-text" href=""><i class="fas fa-ban"></i> delete</a>
                     {% endif %}
                 </div>
-                <div class="col-4">.</div>
+                <div class="col-6 col-md-4 border py-2 #eeeeee grey lighten-4">
+                    <div class="row">
+                        <div class="col-4 px-1 px-md-3">
+                            <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
+                        </div>
+                        <div class="col-8 text-truncate">
+                            <span class="text-muted small">asked {{ question.created_at|date:"M j 'y" }} </span>
+                            <br>
+                            <a href="#" class="text-break small blue-text"> {{ question.question_author.username }}</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
-
-<div class="row">
-    <div class="col-12">
-        <span>{{  question.answers.all|length }} Answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}.</span>
+<div class="row my-3">
+    <div class="col-6 pl-5">
+        <span class="align-middle">{{  question.answers.all|length }} Answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}.</span>
+    </div>
+    <div class="col-6 text-right">
+        <div class="btn-group" role="group" aria-label="Filter questions">
+          <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="far fa-calendar-plus"></i></i> New</button>
+          <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="fas fa-calendar-plus"></i></i> Votes</button>
+        </div>
     </div>
 </div>
+
 {% include 'include_blocks/answers_block.html' %}
 {% include 'include_blocks/paginator.html' %}
 
@@ -81,6 +97,13 @@
             To answer, you need <a href="{% url 'application:login' %}?next={{ request.get_full_path }}#answer_form">log in</a>.
         </p>
     {% endif %}
+    </div>
+    <div class="col-12 my-3">
+        <span class="text-break">Not the answer you're looking for? Browse other questions tagged
+            {% include 'include_blocks/tags_block.html' %}
+            or
+            <a href="{% url 'application:ask' %}">ask your own question.</a>
+        </span>
     </div>
 </div>
 

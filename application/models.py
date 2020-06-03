@@ -93,7 +93,7 @@ class Answer(models.Model):
     def total_likes(self):
         return self.rating.count()
 
-    def get_users_id_who_liked_question(self):
+    def get_users_id_who_liked_answer(self):
         return self.rating.all().values_list('user_id', flat=True)
 
     def get_class(self):
