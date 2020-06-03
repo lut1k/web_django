@@ -1,7 +1,7 @@
 {% if question.tags.count > 0 %}
-    <ul class="list-inline">
-        {% for tag in question.tags.all %}
-        <a href="{% url 'application:questions-by-tag' tag.id %}" class="badge badge-pill badge-primary" class="text-break">{{ tag.name }}</a>
-        {% endfor %}
-    </ul>
+    {% for tag in question.tags.all %}
+        <span>
+            <a href="{% url 'application:questions-by-tag' tag.id %}" class="badge light-blue text-break">{{ tag.name }}</a>
+        </span>
+    {% endfor %}
 {% endif %}

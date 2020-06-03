@@ -1,55 +1,63 @@
 {% extends "base.html" %}
 
 {%block title%}<title>Answers to question</title>{% endblock %}
+
+{% block content_header %}
+<div class="col-12 text-break">
+    <h4>{{ question.title }}</h4>
+</div>
+<div class="col-4">
+    <span class="small text-muted">Asked {{ question.created_at|date:"M j 'y \a\t G:i" }}</span>
+</div>
+<hr>
+{% endblock %}
+
 {%block content%}
-<div class="jumbotron hoverable p-2">
-    <div class="row mx-0">
-        <div class="col-2 col-md-2 p-0 question_avatar">
-            <div class="row mb-2">
-                <div class="col-8 mx-auto">
-                    <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
-                </div>
+<div class="row mb-5">
+    <div class="col-1">
+        <div class="row">
+            <div class="col-12 text-center">
+                <span class="blue-grey-text {{ question.id }}">{{ question.total_likes }}</span>
             </div>
-            <div class="row">
-                <div class="col-6 text-right pr-1">
-                    <span class="badge badge-pill badge-primary {{ question.id }}">{{ question.total_likes }}</span>
-                </div>
-                <div class="col-6 px-0">
-                    <span class="align-middle">
-                        <a href="" class='like {{ question.id }}'
-                           data-id="{{ question.id }}"
-                           data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
-                           data-type="{{ question.get_class }}">
-                            <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
-                        </a>
-                    </span>
-                </div>
+            <div class="col-12 text-center">
+                <span class="blue-grey-text">vote{% if question.total_likes == 1 %}{% else %}s{% endif %}</span>
             </div>
-        </div>
-        <div class="col-10 question_body">
-            <div class="row question_title">
-                <div class="col-8">
-                    <h5 class="text-break">{{ question.title }}</h5>
-                </div>
-                <div class="col-4 align-self-center">
-                    <span>asked {{ question.created_at|date:"M j 'y \a\t G:i" }}</span>
-                    <a href="#" class="text-break">{{ question.question_author.username }}</a>
-                </div>
-            </div>
-            <div class="row question_text mt-2">
-                <p class="text-break">{{question.text}}</p>
-            </div>
-            <div class="row">
-                <div class="col-md-2 question_tags_title text-right">
-                    <p>Tags:</p>
-                </div>
-                <div class="col-md-9 question_tags">
-                    {% include 'include_blocks/tags_block.html' %}
-                </div>
+            <div class="col-12 text-center">
+                <span>
+                    <a href="" class='like {{ question.id }}'
+                       data-id="{{ question.id }}"
+                       data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
+                       data-type="{{ question.get_class }}">
+                        <i class="blue-grey-text fas fa-chevron-{% if request.user.id in question.get_users_id_who_liked_question %}down{% else %}up{% endif %} {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %} data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
+                    </a>
+                </span>
             </div>
         </div>
     </div>
+    <div class="col-11">
+        <span class="text-break"><b>{{question.text}}</b></span>
+        <div class="col-12 my-2 px-0">
+        {% include 'include_blocks/tags_block.html' %}
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-4">
+                    <a class="nav-link blue-grey-text" href=""><i class="far fa-comment"></i> add a comment</a>
+                </div>
+                <div class="col-4">
+                    {% if user == question.question_author %}
+                    <a class="nav-link blue-grey-text" href=""><i class="far fa-edit"></i> edit</a>
+                    <a class="nav-link blue-grey-text" href=""><i class="fas fa-ban"></i> delete</a>
+                    {% endif %}
+                </div>
+                <div class="col-4">.</div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
 <div class="row">
     <div class="col-12">
         <span>{{  question.answers.all|length }} Answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}.</span>

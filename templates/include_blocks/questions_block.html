@@ -1,50 +1,45 @@
 {% for question in questions %}
-<div class="row block_with_question mx-0 my-2 py-2 border-top" >
-    <div class="col-2 p-0 question_avatar">
-        <div class="row mb-2">
-            <div class="col-8 mx-auto">
-                <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
-            </div>
-        </div>
+<div class="row block_with_question mx-0 my-3 pt-2 border-top" >
+
+    <div class="col-2 col-md-1 px-1 question-avatar">
+        <img src="{{ question.question_author.get_avatar }}" class="img-fluid img-thumbnail rounded z-depth-1" alt="avatar">
+    </div>
+
+    <div class="col-2 col-md-1 pt-3 count-votes">
+        <a href="{% url 'application:answers-to-question' question.id %}" class="stretched-link"></a>
         <div class="row">
-            <div class="col-6 text-right pr-1">
-                <span class="badge badge-pill badge-primary {{ question.id }}">{{ question.total_likes }}</span>
+            <div class="col-12 text-center">
+                <span class="blue-grey-text {{ question.id }}">{{ question.total_likes }}</span>
             </div>
-            <div class="col-6 px-0">
-                <span class="align-middle">
-                    <a href="" class='like {{ question.id }}'
-                       data-id="{{ question.id }}"
-                       data-action="{% if request.user.id in question.get_users_id_who_liked_question %}un{% endif %}like"
-                       data-type="{{ question.get_class }}">
-                        <i class="fa{% if request.user.id in question.get_users_id_who_liked_question %}s{% else %}r{% endif %} fa-heart {% if not user.is_authenticated %}material-tooltip-main{% endif %}" {% if not user.is_authenticated %}data-toggle="tooltip" data-placement="right" title="Login please, for like object."{% endif %}></i>
-                    </a>
-                </span>
+            <div class="col-12 text-center">
+                <span class="blue-grey-text">vote{% if question.total_likes == 1 %}{% else %}s{% endif %}</span>
             </div>
         </div>
     </div>
-    <div class="col-10 question_body">
-        <div class="row question_title">
-            <div class="col-8">
-                <a href="{% url 'application:answers-to-question' question.id %}" class="text-break">{{ question.title|truncatechars:90 }}</a>
-            </div>
-            <div class="col-4 align-self-center text-truncate">
-                <span>asked {{ question.created_at|date:"M j 'y" }}</span>
-                <br>
-                <a href="#" class="text-break">{{ question.question_author.username }}</a>
-            </div>
-        </div>
-        <div class="row question_text mt-2">
-            <p class="text-break">{{ question.text|truncatechars_html:430 }}</p>
-        </div>
+
+    <div class="col-2 col-md-1 pt-3 count-answers">
+        <a href="{% url 'application:answers-to-question' question.id %}" class="stretched-link"></a>
         <div class="row">
-            <div class="col-12 col-md-3 question_answers">
-                <a href="{% url 'application:answers-to-question' question.id %}"><span class="badge badge-pill badge-primary">answers ({{question.answers.all|length}})</span></a>
+            <div class="col-12 px-1 text-center">
+                <span class="blue-grey-text">{{question.answers.all|length}}</span>
             </div>
-            <div class="col-2 col-md-2 question_tags_title text-right">
-                <p>Tags:</p>
+            <div class="col-12 px-1 text-center">
+                <span class="blue-grey-text">answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}</span>
             </div>
-            <div class="col-10 col-md-7 question_tags">
+        </div>
+    </div>
+
+    <div class="col-12 col-md-9 mt-2 mt-md-0 question-body">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <a href="{% url 'application:answers-to-question' question.id %}" class="text-break blue-text">{{ question.title|truncatechars:150 }}</a>
+            </div>
+            <div class="col-7 align-self-end">
                 {% include 'include_blocks/tags_block.html' %}
+            </div>
+            <div class="col-5 align-self-end text-truncate text-right">
+                <span class="text-muted small">asked {{ question.created_at|date:"M j 'y" }} </span>
+                <a href="#" class="text-break small blue-text"> {{ question.question_author.username }}</a>
             </div>
         </div>
     </div>
