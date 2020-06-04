@@ -18,6 +18,11 @@
                     </a>
                 </span>
             </div>
+            <div class="col-12 text-center">
+                <span>
+                    <i class="fas fa-check fa-2x green-text {{ answer.id }} {% if answer == question.correct_answer %}d-block{% else %}d-none{% endif %}"  data-toggle="tooltip" data-placement="right" title="Only the author of a question can put a mark 'correct'"></i>
+                </span>
+            </div>
         </div>
     </div>
     <div class="col-12 col-md-11 order-1 order-md-2">
@@ -25,7 +30,17 @@
         <div class="col-12 mt-2">
             <div class="row">
                 <div class="col-12 col-md-4">
-                    <a class="nav-link blue-grey-text" href=""><i class="far fa-comment"></i> add a comment</a>
+                    {% if user == question.question_author %}
+                    <span class="material-tooltip-main"  data-toggle="tooltip" data-placement="right" title="Click here to mark this answer as correct.">
+                        <a href="" class='nav-link blue-grey-text correct-answer' data-question_id="{{ question.id }}" data-answer_id="{{ answer.id }}">
+                            <i class="fas fa-clipboard-check"></i>
+                             mark as correct
+                        </a>
+                    </span>
+                    {% endif %}
+                    <span>
+                        <a class="nav-link blue-grey-text" href=""><i class="far fa-comment"></i> add a comment</a>
+                    </span>
                 </div>
                 <div class="col-6 col-md-4">
                     {% if user == answer.answer_author %}
