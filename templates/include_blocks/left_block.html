@@ -1,11 +1,11 @@
-<div class="row">
-  <div class="col-12">
+<div class="row navbar-expand-md">
+  <div class="col-12 collapse navbar-collapse" id="navbarLeftContent">
     <ul class="nav flex-column lighten-4">
       <li class="nav-item">
         <a class="nav-link blue-grey-text" href="{% url 'application:home' %}"><i class="fas fa-globe"></i></i> Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link blue-grey-text disabled" href=""><i class="fas fa-question"></i> Questions</a>
+        <a class="nav-link blue-grey-text" href="{% url 'application:questions' %}"><i class="fas fa-question"></i> Questions</a>
       </li>
       <li class="nav-item">
         <a class="nav-link blue-grey-text disabled" href=""><i class="fas fa-tags"></i> Tags</a>

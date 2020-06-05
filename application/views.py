@@ -19,6 +19,17 @@ from application.services import add_like, remove_like, get_type_object_from_str
 from application.utilities import signer
 
 
+# Dictionary for selection queryset model Question.
+filter_dict = {
+    'all': Question.objects.all(),
+    'new': Question.objects.new_questions(),
+    'hot': Question.objects.hot_questions(),
+    'unanswered': Question.objects.unanswered_questions(),
+    'week': Question.objects.week_questions(),
+    'month': Question.objects.month_questions(),
+}
+
+
 class HttpResponseAjax(HttpResponse):
     def __init__(self, status='ok', **kwargs):
         kwargs['status'] = status
@@ -42,12 +53,30 @@ def login_required_ajax(view):
     return view2
 
 
-class HomeListView(ListView):
-    model = Question
+class HomeListView(TemplateView):
     template_name = 'index.html'
+
+
+class QuestionsListView(ListView):
+    model = Question
+    template_name = 'questions.html'
     context_object_name = 'questions'
     paginate_by = 20
-    queryset = Question.new_questions.all()
+
+    def dispatch(self, request, *args, **kwargs):
+        self.tab = request.GET.get('tab', 'all')
+        if self.tab not in filter_dict.keys():
+            self.tab = 'all'
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_number_of_questions'] = filter_dict.get(self.tab).count()
+        context['title'] = self.tab
+        return context
+
+    def get_queryset(self):
+        return filter_dict.get(self.tab)
 
 
 def other_page(request, page):
@@ -70,14 +99,6 @@ class AskTemplate(LoginRequiredMixin, CreateView):
             'user': self.request.user,
         })
         return kwargs
-
-
-class HotQuestionsListView(ListView):
-    model = Question
-    template_name = 'hot.html'
-    context_object_name = 'questions'
-    paginate_by = 20
-    queryset = Question.hot_questions.all()
 
 
 class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):

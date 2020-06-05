@@ -33,7 +33,7 @@ class RegisterUserForm(forms.ModelForm):
                                 widget=forms.PasswordInput,
                                 help_text=password_validation.password_validators_help_text_html()
                                 )
-    password2 = forms.CharField(label='Password (second)',
+    password2 = forms.CharField(label='Password (again)',
                                 widget=forms.PasswordInput,
                                 help_text='Enter the same password again for verification'
                                 )

@@ -3,6 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Count
+from django.utils import timezone
 from application.utilities import get_user_directory_path
 
 
@@ -29,14 +30,26 @@ class Tag(models.Model):
         return self.name
 
 
-class NewQuestionsManager(models.Manager):
+class QuestionsManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by('-created_at')
 
+    def new_questions(self):
+        return self.get_queryset()
 
-class HotQuestionsManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
+    def hot_questions(self):
+        return self.get_queryset().annotate(count=Count('rating')).order_by('-count')
+
+    def unanswered_questions(self):
+        return self.get_queryset().annotate(count=Count('answers')).filter(count=0)
+
+    def week_questions(self):
+        filter_date = timezone.now() - timezone.timedelta(weeks=1)
+        return self.get_queryset().filter(created_at__gte=filter_date)
+
+    def month_questions(self):
+        filter_date = timezone.now() - timezone.timedelta(days=30)
+        return self.get_queryset().filter(created_at__gte=filter_date)
 
 
 class Question(models.Model):
@@ -49,20 +62,21 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.CASCADE)
 
-    objects = models.Manager()
-    new_questions = NewQuestionsManager()
-    hot_questions = HotQuestionsManager()
+    objects = QuestionsManager()
 
     def __str__(self):
         return '{}...; user: {};'.format(self.title[:15], self.question_author)
 
     def total_likes(self):
+        """Returns the total number of likes for the question."""
         return self.rating.count()
 
     def get_users_id_who_liked_question(self):
+        """Gets the id of users who like this question."""
         return self.rating.all().values_list('user_id', flat=True)
 
     def get_class(self):
+        """Gets the class of the object. Necessary for the implementation of likes."""
         return self.__class__
 
     def choose_correct_answer(self, answer):
@@ -91,12 +105,15 @@ class Answer(models.Model):
         return "{}; text: {}".format(self.answer_author, self.text[:50])
 
     def total_likes(self):
+        """Returns the total number of likes for the question."""
         return self.rating.count()
 
     def get_users_id_who_liked_answer(self):
+        """Gets the id of users who like this answer."""
         return self.rating.all().values_list('user_id', flat=True)
 
     def get_class(self):
+        """Gets the class of the object. Necessary for the implementation of likes."""
         return self.__class__
 
 

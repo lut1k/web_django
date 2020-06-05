@@ -6,6 +6,7 @@
 {% endfor %}
 
 {% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}">
 
 {% for field in form %}
 <div class="form-group {% if is_columns %}row{% endif %} {% if field.errors %}has-error{% endif %}">
@@ -21,4 +22,4 @@
     </div>
 </div>
 {% endfor %}
-<input type="hidden" name="next" value="{{ next }}">
+

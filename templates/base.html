@@ -22,12 +22,15 @@
 </head>
 <body>
   <header class="navbar navbar-expand-md navbar-light white fixed-top mb-3">
-    <a class="navbar-brand" href="{% url 'application:home' %}">
+    <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarLeftContent" aria-controls="navbarLeftContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-align-justify blue-grey-text"></i></span>
+    </button>
+    <a class="navbar-brand mr-auto" href="{% url 'application:home' %}">
     <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="l-ask">
     l-ask
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-ellipsis-v blue-grey-text"></i></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <form class="form-inline my-1 my-md-0 ml-1">
@@ -69,17 +72,17 @@
   <div class="container-fluid">
     <div class="row justify-content-md-center">
 
+      {% block left_blocks %}
+      <div class="col-12 col-md-2 order-md-1 border-right mb-3">
+        {% include 'include_blocks/left_block.html' %}
+      </div>
+      {% endblock %}
+
       {% block right_blocks %}
         <div class="col-12 col-md-2 order-3 border-left">
         {% include 'include_blocks/popular_tags.html' %}
         {% include 'include_blocks/best_members.html' %}
         </div>
-      {% endblock %}
-
-      {% block left_blocks %}
-      <div class="col-md-2 order-md-1 d-none d-md-block border-right">
-        {% include 'include_blocks/left_block.html' %}
-      </div>
       {% endblock %}
 
       <div class="col-12 col-md-8 order-2 block_content">
@@ -92,9 +95,7 @@
           <div class="col-12 m-0">
               {% block content_header %}{% endblock %}
           </div>
-          <div class="col-12 col-md-6 ml-auto m-0">
-            {% block content_header_link %}{% endblock %}
-          </div>
+          {% block content_header_link %}{% endblock %}
         </div>
         {% block content %}{% endblock %}
       </div>
