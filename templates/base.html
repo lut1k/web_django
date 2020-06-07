@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-  <header class="navbar navbar-expand-md navbar-light white fixed-top mb-3">
+  <header class="navbar navbar-expand-md navbar-light white fixed-top mb-3 scrolling-navbar">
     <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarLeftContent" aria-controls="navbarLeftContent" aria-expanded="false" aria-label="Toggle navigation">
       <span><i class="fas fa-align-justify blue-grey-text"></i></span>
     </button>
@@ -68,7 +68,8 @@
     </div>
   </header>
 
-  <main>
+<main>
+
   <div class="container-fluid">
     <div class="row justify-content-md-center">
 
@@ -85,7 +86,9 @@
         </div>
       {% endblock %}
 
-      <div class="col-12 col-md-8 order-2 block_content">
+      {% block home_page_div %}
+      <div class="col-12 col-md-8 order-2 block_content border-left">
+      {% endblock %}
         <div class="row">
           <section class="col-12">
             {% bootstrap_messages %}
@@ -102,7 +105,8 @@
 
     </div>
   </div>
-  </main>
+
+</main>
 
   <!-- Footer -->
   <footer class="page-footer font-small unique-color-dark pt-4">

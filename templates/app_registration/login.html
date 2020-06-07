@@ -8,11 +8,11 @@
 
 {% else %}
 <div class="row justify-content-center">
-    <div class="col-lg-5 col-12">
+    <div class="col-12 col-lg-6 ">
         <form class="text-center border border-light p-5 jumbotron hoverable" action="{% url 'application:login' %}" method="POST">
             <p class="h4 mb-4">Sign in</p>
             {% include "include_blocks/form.html" %}
-            <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+            <button class="btn btn-info btn-block my-4 mx-2" type="submit">Sign in</button>
             <!-- Register -->
             <p>Not a member?
                 <a href="{% url 'application:register' %}">Register</a>

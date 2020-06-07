@@ -1,12 +1,126 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block content_header %}<h3>Home page</h3>{% endblock %}
+{% block content_header %}{% endblock %}
 
 {% block content_header_link %}{% endblock %}
 
-{%block content%}
-<span>Sorry. The main page is under construction. visit other pages of our site
-    (<a href="{% url 'application:questions' %}">questions</a>).
-</span>
+{% block home_page_div %}
+    <div class="col-12 col-md-10 order-2 block_content">
 {% endblock %}
 
+{%block content%}
+<div class="row justify-content-around">
+
+    <div class="jumbotron card card-image" style="background-image: url({% static 'images/background_index_question.jpg' %});">
+      <div class="text-center py-3 px-4">
+        <div>
+          <h2 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Ask questions and get answers to them.</strong></h2>
+          <p class="mx-5 mb-5 mt-3">
+            This project will help you get answers to your questions. During this period, the project is being developed. You can see the full source code on my repository on
+              <a href="https://github.com/lut1k/web_django" class="blue-text">GitHub</a>.
+          </p>
+          <a href="{% url 'application:other' 'about' %}" class="btn btn-outline-dark btn-md text-black-50"><i class="fas fa-clone left text-black-50"></i> About</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-10 col-md-9 text-center align-self-center mb-3">
+        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam,
+            voluptatem, optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum
+            dignissimos. Odit sed qui, dolorum!</span>
+    </div>
+
+    <div class="col-10 col-md-4 my-3 my-md-0">
+        <div class="card card-image"
+          style="background-image: url({% static 'images/background_card_question.png' %});
+                  background-size: 100%;">
+          <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+            <div>
+              <h5 class="pink-text"><i class="fas fa-chart-pie"></i> Q&A</h5>
+              <h3 class="card-title pt-2"><strong>Free Q&A</strong></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam, voluptatem,
+                optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos.
+                Odit sed qui, dolorum!.</p>
+              <a class="btn btn-pink" href="{% url 'application:questions' %}"><i class="fas fa-clone left"></i> Browse questions</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 my-3 my-md-0">
+        <div class="card card-image"
+          style="background-image: url(https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20%2814%29.jpg);">
+          <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+            <div>
+              <h5 class="pink-text"><i class="fas fa-chart-pie"></i> Tags</h5>
+              <h3 class="card-title pt-2"><strong>Question tags</strong></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam, voluptatem,
+                optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos.
+                Odit sed qui, dolorum!.</p>
+              <a class="btn btn-pink"><i class="fas fa-clone left"></i> Browse tags</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Card deck -->
+    <div class="col-10 card-deck mt-5">
+      <div class="card mb-4">
+        <div class="view overlay">
+          <img class="card-img-top" src="{% static 'images/background_card_vote.png' %}"
+            alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Voting</h4>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+          <button type="button" class="btn btn-blue-grey btn-md">Read more</button>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="card mb-4">
+        <div class="view overlay">
+          <img class="card-img-top" src="{% static 'images/background_card_correct.jpg' %}"
+            alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h4 class="card-title">Correct answers</h4>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+          <button type="button" class="btn btn-blue-grey btn-md">Read more</button>
+        </div>
+      </div>
+      <!-- Card -->
+
+      <!-- Card -->
+      <div class="card mb-4">
+        <div class="view overlay">
+          <img class="card-img-top" src="{% static 'images/background_card_email.jpg' %}"
+            alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Email notifications</h4>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+          <button type="button" class="btn btn-blue-grey btn-md">Read more</button>
+        </div>
+      </div>
+    </div>
+    <!-- Card deck -->
+
+</div>
+{% endblock %}
+
+{% block right_blocks %}{% endblock %}
