@@ -3,10 +3,17 @@
 {%block title%}<title>Delete user</title>{% endblock %}
 {% block content_header %}<h3>Delete user {{ object.username }}</h3>{% endblock %}
 {%block content%}
+<span>After deleting your account, you will lose access to the features of our site. Are you sure you want to delete the profile?</span>
 <form method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete</button>
+    <button type="submit" class="btn btn-danger btn-md">Delete</button>
 </form>
+
+<div class="row">
+    <div class="col-12">
+        <a href="{% url 'application:home' %}" class="btn btn-success btn-md">Go back</a>
+    </div>
+</div>
 {% endblock %}
-{% block right_blocks %}{% endblock %}
 {% block left_blocks %}{% endblock %}
+{% block right_blocks %}{% endblock %}

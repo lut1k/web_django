@@ -80,8 +80,9 @@ class AskForm(forms.ModelForm):
         }
         labels = {'text': 'Question text'}
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, question_id=None, *args, **kwargs):
         self._user = user
+        self.question_id = question_id
         super().__init__(*args, **kwargs)
 
     def clean_tags(self):
@@ -96,12 +97,15 @@ class AskForm(forms.ModelForm):
         for tag_name in tag_names:
             tag, created = Tag.objects.get_or_create(name=tag_name)
             tags.append(tag)
-        question = Question.objects.create(title=self.cleaned_data['title'],
-                                           text=self.cleaned_data['text'],
-                                           question_author=self._user,
-                                           )
-        for tag in tags:
-            question.tags.add(tag)
+        question, created = Question.objects.update_or_create(id=self.question_id,
+                                                              defaults={'title': self.cleaned_data['title'],
+                                                                        'text': self.cleaned_data['text'],
+                                                                        'question_author': self._user,
+                                                                        })
+        question.tags.set(tags)
+        # question.tags.clear()
+        # for tag in tags:
+        #     question.tags.add(tag)
         return question
 
 

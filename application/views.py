@@ -100,6 +100,55 @@ class AskTemplate(LoginRequiredMixin, CreateView):
         })
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'ask'
+        return context
+
+
+class QuestionsChangeView(LoginRequiredMixin, UpdateView):
+    model = Question
+    form_class = AskForm
+    template_name = 'ask.html'
+
+    def post(self, request, *args, **kwargs):
+        messages.add_message(request, messages.SUCCESS, 'Your question has been successfully changed.')
+        return super().post(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user,
+            'question_id': self.kwargs.get('pk'),
+        })
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy("application:answers-to-question", kwargs=({'pk': self.kwargs.get('pk')}))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'change'
+        return context
+
+
+class QuestionsDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
+    success_url = reverse_lazy('application:questions')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.question_id = self.kwargs.get('pk')
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        messages.add_message(request, messages.SUCCESS, 'Your question deleted')
+        return super().post(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.question_id)
+
 
 class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
     model = Answer
