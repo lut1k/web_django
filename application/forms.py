@@ -103,9 +103,6 @@ class AskForm(forms.ModelForm):
                                                                         'question_author': self._user,
                                                                         })
         question.tags.set(tags)
-        # question.tags.clear()
-        # for tag in tags:
-        #     question.tags.add(tag)
         return question
 
 

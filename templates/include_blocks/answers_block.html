@@ -44,8 +44,12 @@
                 </div>
                 <div class="col-6 col-md-4">
                     {% if user == answer.answer_author %}
-                    <a class="nav-link blue-grey-text" href=""><i class="far fa-edit"></i> edit</a>
-                    <a class="nav-link blue-grey-text" href=""><i class="fas fa-ban"></i> delete</a>
+                    <a class="nav-link blue-grey-text" data-toggle="modal" data-target="#ChangeAnswersModal{{ answer.id }}">
+                        <i class="far fa-edit"></i> edit</a>
+                    <a type="button" class="nav-link blue-grey-text" data-toggle="modal" data-target="#DeleteAnswersModal{{ answer.id }}">
+                      <i class="fas fa-ban"></i> delete
+                    </a>
+                    {% include 'include_blocks/modal_answers.html' %}
                     {% endif %}
                 </div>
                 <div class="col-6 col-md-4 border py-2 #eeeeee grey lighten-4">
@@ -64,4 +68,5 @@
         </div>
     </div>
 </div>
+
 {% endfor %}

@@ -60,7 +60,7 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     rating = GenericRelation('Like')
     tags = models.ManyToManyField(Tag, blank=True)
-    correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.CASCADE)
+    correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = QuestionsManager()
 
