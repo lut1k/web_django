@@ -1,5 +1,5 @@
 # Project "Questions and Answers".
-### Django, Django REST Framework, PostgreSQL, Bootstrap.
+### Django, Django REST Framework, PostgreSQL, Bootstrap, jQuery.
 
 https://l-ask.herokuapp.com/ - try it now.
 
