@@ -1,4 +1,6 @@
 from django.core.management import BaseCommand
+from django.db.models import Count
+from application.models import Tag, LaskUser
 
 
 class Command(BaseCommand):
@@ -7,4 +9,15 @@ class Command(BaseCommand):
            'The best users are the users with the most questions + answers in the last 3 months.'
 
     def handle(self, *args, **options):
-        pass
+        self.top_tags()
+        self.top_users()
+
+    @classmethod
+    def top_tags(cls):
+        tags = Tag.objects.annotate(count=Count('question')).order_by('-count')[:5]
+        return tags
+
+    @classmethod
+    def top_users(cls):
+        users = LaskUser.objects.all()[:5]
+        return users
