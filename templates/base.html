@@ -81,8 +81,9 @@
 
       {% block right_blocks %}
         <div class="col-12 col-md-2 order-3 border-left">
-        {% include 'include_blocks/popular_tags.html' %}
-        {% include 'include_blocks/best_members.html' %}
+        {% load asktags %}
+        {% top_tags %}
+        {% top_users %}
         </div>
       {% endblock %}
 
