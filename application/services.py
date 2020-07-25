@@ -9,7 +9,8 @@ from .models import Like
 # Functions for implementing likes.
 User = get_user_model()
 def add_like(obj, user):
-    """Add a like to an `obj`.
+    """
+    Add a like to an `obj`.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     like, is_created = Like.objects.get_or_create(
@@ -21,7 +22,8 @@ def add_like(obj, user):
 
 
 def remove_like(obj, user):
-    """Remove a like from an `obj`.
+    """
+    Remove a like from an `obj`.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     Like.objects.filter(
@@ -32,7 +34,8 @@ def remove_like(obj, user):
 
 
 def is_fan(obj, user) -> bool:
-    """Check whether a user liked an `obj` or not.
+    """
+    Check whether a user liked an `obj` or not.
     """
     if not user.is_authenticated:
         return False
@@ -46,7 +49,8 @@ def is_fan(obj, user) -> bool:
 
 
 def get_fans(obj):
-    """Get the users which liked an `obj`.
+    """
+    Get the users which liked an `obj`.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     return User.objects.filter(
@@ -56,12 +60,11 @@ def get_fans(obj):
 
 
 def get_type_object_from_str(string: str):
-    """From string '<class 'application.models.Question'>' return class 'application.models.Question'."""
+    """
+    From string '<class 'application.models.Question'>' return class 'application.models.Question'.
+    """
     class_object = re.search('\w*\.\w*\.\w*', string).group(0)
     module_name, dot, classname = class_object.rpartition('.')
     module = importlib.import_module(module_name)
     klass = getattr(module, classname)
     return klass
-
-
-

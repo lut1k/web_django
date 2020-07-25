@@ -1,0 +1,21 @@
+<div class="row block_with_tag my-3 pt-2 justify-content-around no-gutters">
+{% if tags %}
+    {% for tag in tags %}
+    <div class="col-12 col-md-3 border">
+        <div class="row">
+            <div class="col-12">
+            <span>
+                <a href="{% url 'application:questions-by-tag' tag.id %}" class="badge #212121 grey darken-1 text-break">{{ tag.name }}</a>
+            </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="row block_with_tag mx-0 my-3 pt-2 border-top" >
+        <div class="col-12">
+            <span>There are no tags for your request.</span>
+        </div>
+    </div>
+{% endif %}
+</div>

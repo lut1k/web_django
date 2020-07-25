@@ -25,6 +25,7 @@ class LaskUser(AbstractUser):
 
 class Tag(models.Model):
     name = models.CharField(max_length=31, unique=True)
+    description = models.TextField(max_length=255, default='Currently no description available', blank=True)
 
     def __str__(self):
         return self.name

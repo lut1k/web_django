@@ -1,6 +1,5 @@
 from django import template
 from django.db.models import Count, Sum, F
-
 from application.models import LaskUser, Tag
 
 register = template.Library()

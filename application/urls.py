@@ -7,8 +7,9 @@ app_name = 'application'
 
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
-    path('questions', views.QuestionsListView.as_view(), name='questions'),
+    path('questions/', views.QuestionsListView.as_view(), name='questions'),
     path('tag/<int:pk>/', views.QuestionsByTagView.as_view(), name='questions-by-tag'),
+    path('tags/', views.TagsListView.as_view(), name='tags'),
     path('question/<int:pk>/', views.AnswersToQuestionList.as_view(), name='answers-to-question'),
     path('question/change/<int:pk>/', views.QuestionsChangeView.as_view(), name='change-question'),
     path('question/delete/<int:pk>/', views.QuestionsDeleteView.as_view(), name='delete-question'),

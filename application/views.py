@@ -69,14 +69,14 @@ class QuestionsListView(ListView):
             self.tab = 'all'
         return super().dispatch(request, *args, **kwargs)
 
+    def get_queryset(self):
+        return filter_dict.get(self.tab)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_of_questions'] = filter_dict.get(self.tab).count()
         context['title'] = self.tab
         return context
-
-    def get_queryset(self):
-        return filter_dict.get(self.tab)
 
 
 def other_page(request, page):
@@ -241,6 +241,15 @@ class AnswerDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('application:answers-to-question', kwargs={'pk': self.answer.question.id})
+
+# ------------- Tags ---------------
+
+
+class TagsListView(ListView):
+    model = Tag
+    template_name = 'tags_list.html'
+    context_object_name = 'tags'
+    paginate_by = 80
 
 # ------------- User, profile ---------------
 
