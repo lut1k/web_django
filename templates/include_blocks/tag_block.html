@@ -1,15 +1,24 @@
-<div class="row block_with_tag my-3 pt-2 justify-content-around no-gutters">
+<div class="row block_with_tag my-3 pt-2 justify-content-around">
 {% if tags %}
     {% for tag in tags %}
-    <div class="col-12 col-md-3 border">
-        <div class="row">
-            <div class="col-12">
-            <span>
-                <a href="{% url 'application:questions-by-tag' tag.id %}" class="badge #212121 grey darken-1 text-break">{{ tag.name }}</a>
-            </span>
+    <div class="col-12 col-md-3 p-1">
+        <div class="col-12 border">
+            <div class="row">
+                <div class="col-12 py-1">
+                    <span>
+                        <a href="{% url 'application:questions-by-tag' tag.id %}" class="badge #212121 grey darken-1 text-break">{{ tag.name }}</a>
+                    </span>
+                </div>
+                <div class="col-12 pb-1">
+                    <span class="blue-grey-text">{{ tag.description|truncatechars:125 }}</span>
+                </div>
+                <div class="col-12 py-1">
+                    <span class="blue-grey-text small">{{tag.questions.all|length}} question{% if tag.questions.all|length == 1 %}{% else %}s{% endif %}</span>
+                </div>
             </div>
         </div>
     </div>
+
     {% endfor %}
 {% else %}
     <div class="row block_with_tag mx-0 my-3 pt-2 border-top" >

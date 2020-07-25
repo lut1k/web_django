@@ -23,9 +23,22 @@ class LaskUser(AbstractUser):
         pass
 
 
+class TagManager(models.Manager):
+    def get_new_tags(self):
+        return self.get_queryset().order_by('-created_at')
+
+    def get_tags_sorted_by_name(self):
+        return self.get_queryset().order_by('name')
+
+    def get_tags_sorted_by_numbers_of_questions(self):
+        return self.get_queryset()
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=31, unique=True)
     description = models.TextField(max_length=255, default='Currently no description available', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    objects = TagManager()
 
     def __str__(self):
         return self.name
@@ -60,7 +73,7 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     rating = GenericRelation('Like')
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name='questions')
     correct_answer = models.OneToOneField('Answer', related_name='+', null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = QuestionsManager()

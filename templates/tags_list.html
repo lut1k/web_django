@@ -15,9 +15,9 @@
 </div>
 <div class="col-12 col-md-6 m-0 text-md-right">
     <div class="btn-group" role="group" aria-label="Filter questions">
-        <a href="" type="button" class="btn btn-blue-grey btn-sm disabled"><i class="fas fa-pepper-hot"></i> Popular</a>
-        <a href="" type="button" class="btn btn-blue-grey btn-sm disabled"><i class="far fa-file-word"></i> Name</a>
-        <a href="" type="button" class="btn btn-blue-grey btn-sm disabled"><i class="fas fa-external-link-alt"></i></i> New</a>
+        <a href="{% url 'application:tags' %}?tab=popular" type="button" class="btn btn-blue-grey btn-sm"><i class="fas fa-pepper-hot"></i> Popular</a>
+        <a href="{% url 'application:tags' %}?tab=name" type="button" class="btn btn-blue-grey btn-sm"><i class="far fa-file-word"></i> Name</a>
+        <a href="{% url 'application:tags' %}?tab=new" type="button" class="btn btn-blue-grey btn-sm"><i class="fas fa-external-link-alt"></i></i> New</a>
     </div>
 </div>
 {% endblock %}

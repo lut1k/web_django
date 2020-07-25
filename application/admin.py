@@ -62,10 +62,17 @@ class QuestionAdmin(admin.ModelAdmin):
         model = Question
 
 
+class TagAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+    class Meta:
+        model = Tag
+
+
 admin.site.register(LaskUser, LaskUserAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer)
-admin.site.register(Tag)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Like)
 
 

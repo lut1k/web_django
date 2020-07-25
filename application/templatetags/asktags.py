@@ -13,5 +13,5 @@ def top_users(*args):
 
 @register.inclusion_tag('include_blocks/popular_tags.html')
 def top_tags(*args):
-    tags = Tag.objects.annotate(count=Count('question')).order_by('-count')[:5]
+    tags = Tag.objects.annotate(count=Count('questions')).order_by('-count')[:5]
     return {'tags': tags}
