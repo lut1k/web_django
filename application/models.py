@@ -31,7 +31,7 @@ class TagManager(models.Manager):
         return self.get_queryset().order_by('name')
 
     def get_tags_sorted_by_numbers_of_questions(self):
-        return self.get_queryset()
+        return self.get_queryset().annotate(count=Count('questions')).order_by('-count')
 
 
 class Tag(models.Model):

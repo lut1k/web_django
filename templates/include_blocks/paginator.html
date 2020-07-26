@@ -3,7 +3,7 @@
   <ul class="pagination pg-darkgrey justify-content-center">
     {% if page_obj.has_previous %}
       <li class="page-item">
-        <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Previous</a>
+        <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Previous</a>
       </li>
     {% else %}
      <li class="page-item disabled" aria-hidden="true">
@@ -13,7 +13,7 @@
 
     {% if page_obj.number > 1 %}
       <li class="page-item">
-        <a class="page-link" href="{{ request.path }}?page=1">1</a>
+        <a class="page-link" href="{{ request.path }}?page=1{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">1</a>
       </li>
     {% endif %}
 
@@ -27,7 +27,7 @@
       {% with page_obj.previous_page_number|add:-1 as second_previous_page %}
           {% if second_previous_page > 1 %}
               <li class="page-item">
-                  <a class="page-link" href="{{ request.path }}?page={{ second_previous_page }}">{{ second_previous_page }}</a>
+                  <a class="page-link" href="{{ request.path }}?page={{ second_previous_page }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ second_previous_page }}</a>
               </li>
           {% endif %}
       {% endwith %}
@@ -35,7 +35,7 @@
 
     {% if page_obj.previous_page_number > 1 %}
       <li class="page-item">
-          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ page_obj.previous_page_number }}</a>
       </li>
     {% endif %}
 
@@ -46,7 +46,7 @@
 
     {% if page_obj.next_page_number < paginator.num_pages %}
       <li class="page-item">
-          <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ page_obj.next_page_number }}</a>
       </li>
     {% endif %}
 
@@ -54,7 +54,7 @@
       {% with page_obj.next_page_number|add:1 as second_next_page %}
           {% if second_next_page < paginator.num_pages %}
               <li class="page-item">
-                  <a class="page-link" href="{{ request.path }}?page={{ second_next_page }}">{{ second_next_page }}</a>
+                  <a class="page-link" href="{{ request.path }}?page={{ second_next_page }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ second_next_page }}</a>
               </li>
           {% endif %}
       {% endwith %}
@@ -66,14 +66,14 @@
 
     {% if page_obj.number < paginator.num_pages %}
         <li class="page-item">
-            <a class="page-link" href="{{ request.path }}?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+            <a class="page-link" href="{{ request.path }}?page={{ paginator.num_pages }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ paginator.num_pages }}</a>
         </li>
     {% endif %}
 
 
     {% if page_obj.has_next %}
     <li class="page-item">
-      <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Next</a>
     </li>
     {% else %}
       <li class="page-item disabled" aria-hidden="true">
