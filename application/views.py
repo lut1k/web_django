@@ -260,12 +260,15 @@ class TagsListView(ListView):
     }
 
     def dispatch(self, request, *args, **kwargs):
+        self.filter_tags = request.GET.get('filter_tags')
         self.tab = request.GET.get('tab', 'new')
         if self.tab not in self.sorted_dict.keys():
             self.tab = 'new'
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
+        if self.filter_tags:
+            return Tag.objects.filter(name__icontains=self.filter_tags)
         return self.sorted_dict.get(self.tab)()
 
 # ------------- User, profile ---------------
