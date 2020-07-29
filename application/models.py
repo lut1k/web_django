@@ -99,9 +99,13 @@ class Question(models.Model):
             self.save()
 
 
-class HotAnswersManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
+class AnswersManager(models.Manager):
+
+    def new_answers(self):
+        return self.get_queryset().order_by('-created_at')
+
+    def hot_answers(self):
+        return self.get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
 
 
 class Answer(models.Model):
@@ -112,8 +116,7 @@ class Answer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     rating = GenericRelation('Like')
 
-    objects = models.Manager()
-    hot_answers = HotAnswersManager()
+    objects = AnswersManager()
 
     def __str__(self):
         return "{}; text: {}".format(self.answer_author, self.text[:50])

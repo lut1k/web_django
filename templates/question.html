@@ -88,9 +88,9 @@
         <span class="align-middle">{{  question.answers.all|length }} Answer{% if question.answers.all|length_is:1 %}{% else %}s{% endif %}.</span>
     </div>
     <div class="col-6 text-right">
-        <div class="btn-group" role="group" aria-label="Filter questions">
-          <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="far fa-calendar-plus"></i></i> New</button>
-          <button type="button" class="btn btn-blue-grey btn-sm disabled"><i class="fas fa-calendar-plus"></i></i> Votes</button>
+        <div class="btn-group" role="group" aria-label="Filter answers">
+            <a href="{% url 'application:answers-to-question' question.id %}?tab=new" type="button" class="btn btn-blue-grey btn-sm"><i class="far fa-calendar-plus"></i> New</a>
+            <a href="{% url 'application:answers-to-question' question.id %}?tab=votes" type="button" class="btn btn-blue-grey btn-sm"><i class="fas fa-calendar-plus"></i></i> Votes</a>
         </div>
     </div>
 </div>

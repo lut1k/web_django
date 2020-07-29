@@ -19,9 +19,6 @@ from application.services import add_like, remove_like, get_type_object_from_str
 from application.utilities import signer
 
 
-
-
-
 class HttpResponseAjax(HttpResponse):
     def __init__(self, status='ok', **kwargs):
         kwargs['status'] = status
@@ -115,8 +112,16 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
     paginate_by = 20
     context_object_name = 'answers'
 
+    sorted_dict = {
+        'new': Answer.objects.new_answers,
+        'votes': Answer.objects.hot_answers,
+    }
+
     def dispatch(self, request, *args, **kwargs):
         self.target_question = self.kwargs.get('pk')
+        self.tab = request.GET.get('tab', 'new')
+        if self.tab not in self.sorted_dict.keys():
+            self.tab = 'new'
         self.object_list = self.get_queryset()
         self.question = get_object_or_404(Question, id=self.target_question)
         return super().dispatch(request, *args, **kwargs)
@@ -135,7 +140,7 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
         return context
 
     def get_queryset(self):
-        return Answer.hot_answers.filter(question=self.target_question)
+        return self.sorted_dict.get(self.tab)().filter(question=self.target_question)
 
     def get_success_url(self):
         return reverse_lazy('application:answers-to-question', kwargs={'pk': self.target_question})
