@@ -102,10 +102,10 @@ class Question(models.Model):
 class AnswersManager(models.Manager):
 
     def new_answers(self):
-        return self.get_queryset().order_by('-created_at')
+        return self.get_queryset().annotate(count=Count('question__correct_answer')).order_by('-count', '-created_at')
 
     def hot_answers(self):
-        return self.get_queryset().annotate(count=Count('rating')).order_by('-count', '-created_at')
+        return self.get_queryset().annotate(rating_=Count('rating')).order_by('-rating_', '-created_at')
 
 
 class Answer(models.Model):
