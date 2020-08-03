@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
+from django.db.models import Case, When, BooleanField
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import TemplateDoesNotExist
@@ -122,8 +123,8 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
         self.tab = request.GET.get('tab', 'new')
         if self.tab not in self.sorted_dict.keys():
             self.tab = 'new'
-        self.object_list = self.get_queryset()
         self.question = get_object_or_404(Question, id=self.target_question)
+        self.object_list = self.get_queryset()
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -140,7 +141,13 @@ class AnswersToQuestionList(AccessMixin, MultipleObjectMixin, CreateView):
         return context
 
     def get_queryset(self):
-        return self.sorted_dict.get(self.tab)().filter(question=self.target_question)
+        return self.sorted_dict.get(self.tab)().filter(question=self.target_question).annotate(
+            is_correct=Case(
+                When(id=self.question.correct_answer.id, then=True),
+                default=False,
+                output_field=BooleanField(),
+            )
+        ).order_by('-is_correct')
 
     def get_success_url(self):
         return reverse_lazy('application:answers-to-question', kwargs={'pk': self.target_question})

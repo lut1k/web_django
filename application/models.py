@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, F
 from django.utils import timezone
 from application.utilities import get_user_directory_path
 
@@ -102,7 +102,7 @@ class Question(models.Model):
 class AnswersManager(models.Manager):
 
     def new_answers(self):
-        return self.get_queryset().annotate(count=Count('question__correct_answer')).order_by('-count', '-created_at')
+        return self.get_queryset().order_by('-created_at')
 
     def hot_answers(self):
         return self.get_queryset().annotate(rating_=Count('rating')).order_by('-rating_', '-created_at')
